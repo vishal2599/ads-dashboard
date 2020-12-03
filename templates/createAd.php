@@ -1,9 +1,11 @@
 <div class="wrap">
     <h1 class="wp-heading-inline"><?php echo (isset($_GET['advert_id'])) ? 'Edit' : 'Add    '; ?> Details of the Advertisement</h1>
+    <?php if (in_array('administrator', (array) $user->roles)) : ?>
     <a href="/wp-admin/admin.php?page=advertisers_dashboard" class="page-title-action ad-new-ad"><- Back to Ads Dashboard</a> 
+    <?php endif; ?>
         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" name='adv_dashboard_form' enctype='multipart/form-data'>
             <?php
-            if ($_GET['ad_type'] == 'edit') :
+            if (isset($_GET['ad_type']) && $_GET['ad_type'] == 'edit') :
                 $mysql = 'SELECT ' . $wpdb->prefix . 'advertisements_dash.*, ' . $wpdb->prefix . 'users.user_nicename FROM ' . $wpdb->prefix . 'advertisements_dash INNER JOIN ' . $wpdb->prefix . 'users ON ' . $wpdb->prefix . 'advertisements_dash.user_id = ' . $wpdb->prefix . 'users.ID WHERE ' . $wpdb->prefix . 'advertisements_dash.id = ' . (int)$_GET['advert_id'];
 
                 $data = $wpdb->get_row($mysql);
@@ -47,7 +49,7 @@
                 <?php endif; ?>
             </div>
             <div class="form-fields not-visible">
-                <?php if ($_GET['ad_type'] == 'edit') : ?>
+                <?php if ( isset($_GET['ad_type']) && $_GET['ad_type'] == 'edit') : ?>
                     <input type="hidden" name="action" value="edit_advert" />
                     <input type="hidden" name="advert_id" value="<?php echo $_GET['advert_id']; ?>" />
                 <?php else : ?>

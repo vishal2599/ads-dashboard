@@ -1,8 +1,8 @@
 <div class="ad-dashboard wrap">
     <h1 class="wp-heading-inline">Advertisements</h1>
-    <?php if (in_array('advertiser', (array) $user->roles) ) : ?>
-        <a href="/wp-admin/admin.php?page=advertisers_dashboard&ad_type=new" class="page-title-action ad-new-ad">Add New</a>
-    <?php endif; ?>
+    <?php //if (in_array('advertiser', (array) $user->roles) ) : ?>
+        <!-- <a href="/wp-admin/admin.php?page=advertisers_dashboard&ad_type=new" class="page-title-action ad-new-ad">Add New</a> -->
+    <?php //endif; ?>
     <table id="adv-dashboard">
         <thead>
             <tr role="row">
@@ -20,7 +20,6 @@
             <?php $i = 1;
             foreach ($result as $row) : ?>
                 <tr role="row" class="<?php echo ($i % 2 == 0) ? 'even' : 'odd'; ?>">
-                    <td class=" dt-body-center"><?php echo $row->id; ?></td>
                     <?php if (in_array('administrator', (array) $user->roles)) : ?>
                         <td class=" dt-body-center"><?php echo $row->user_nicename; ?></td>
                     <?php endif; ?>

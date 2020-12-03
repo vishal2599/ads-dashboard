@@ -21,8 +21,7 @@ class Activate
     {
         add_role('advertiser', 'Advertiser', [
             'read' => true,
-            'upload_files' => true,
-            'manage_options' => true
+            'upload_files' => true
         ]);
 
     }
