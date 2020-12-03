@@ -71,7 +71,7 @@ class Publish extends BaseController
             global $wpdb;
 
             $wpdb->update($wpdb->prefix . 'advertisements_dash', array(
-                'banner_id' => $_POST['membership_type'],
+                'membership_type' => $_POST['membership_type'],
                 'status' => $_POST['status']
             ),[
                 'id' => (int)$_POST['advert_id']
