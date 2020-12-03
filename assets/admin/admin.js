@@ -11,7 +11,7 @@
         $('#adv-dashboard').DataTable();
 
         function open_custom_media_window() {
-            var container = $(this).parent().attr('class');
+            var container = $(this).parent().parent().attr('class');
             console.log(container);
             if (this.window === undefined) {
                 this.window = wp.media({
