@@ -1,0 +1,17 @@
+{
+    "name": "shotgunflat/advertisers-dashboard",
+    "description": "This is an Advertising Management Plugin",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "shotgun_flat",
+            "email": "testingflat11@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {"AdvDashboard\\": "./inc"}
+    }
+}

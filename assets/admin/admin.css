@@ -1,0 +1,19 @@
+#adv-dashboard_wrapper{
+    margin-top: 30px;
+}
+#adv-dashboard_wrapper #adv-dashboard_length select {
+    background-color:#fff ;
+    width:100px;
+}
+
+#adv-dashboard_filter input{
+    background-color:#fff;
+}
+
+.adv-headings{
+    display: inline-block;
+}
+
+.form-fields input[type="text"]{
+    width:400px;
+}
