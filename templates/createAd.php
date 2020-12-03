@@ -1,8 +1,6 @@
 <div class="adv-create-ad wrap">
     <h1 class="wp-heading-inline">Add Details of the Advertisement</h1>
-    <?php if (in_array('administrator', (array) $user->roles)) : ?>
-        <a href="/wp-admin/admin.php?page=advertisers_dashboard" class="page-title-action ad-new-ad">
-            <- Back to Ads Dashboard</a> <?php endif; ?> <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" name='adv_dashboard_form' enctype='multipart/form-data'>
+    <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" name='adv_dashboard_form' enctype='multipart/form-data'>
                 <?php
                 $mysql = 'SELECT ' . $wpdb->prefix . 'advertisements_dash.*, ' . $wpdb->prefix . 'users.user_nicename FROM ' . $wpdb->prefix . 'advertisements_dash INNER JOIN ' . $wpdb->prefix . 'users ON ' . $wpdb->prefix . 'advertisements_dash.user_id = ' . $wpdb->prefix . 'users.ID WHERE ' . $wpdb->prefix . 'advertisements_dash.user_id = ' . $user->ID;
 
@@ -59,22 +57,11 @@
                         <input type='text' placeholder="Affiliate URL" name='sidebar_two_url' <?php echo (!empty($data)) ? 'value=' . $data->sidebar_two_url : ''; ?>>
                     </div>
                 </div>
-                <div class="form-fields">
-                    <?php if (in_array('administrator', (array) $user->roles)) : ?>
-                        <h3 class="adv-headings">Status</h3>
-                        <input type="radio" name="status" value="0" <?php echo (!empty($data)) ? ($data->status == false ? 'checked' : '') : ''; ?>> <span style="color:red;">Inactive</span>
-                        <input type="radio" name="status" value="1" <?php echo (!empty($data)) ? ($data->status > 0 ? 'checked' : '') : ''; ?>> <span style="color:green;">Active</span>
-                    <?php endif; ?>
-                </div>
                 <div class="form-fields not-visible">
-                    <?php if (isset($_GET['ad_type']) && $_GET['ad_type'] == 'edit') : ?>
-                        <input type="hidden" name="action" value="edit_advert" />
-                        <input type="hidden" name="advert_id" value="<?php echo $_GET['advert_id']; ?>" />
-                    <?php else : ?>
-                        <input type="hidden" name="action" value="new_advert" />
-                    <?php endif; ?>
-                    <?php $new_advert_nonce = wp_create_nonce('new_advertisement_nonce');  ?>
-                    <input type="hidden" name="new_advert_nonce" value="<?php echo $new_advert_nonce ?>" />
+                        <input type="hidden" name="action" value="<?php echo (!empty($data)) ? 'edit_advert' : 'new_advert'; ?>" />
+                        <input type="hidden" name="advertiser_id" value="<?php echo $user->ID; ?>" />
+                    <?php $new_advertisement_nonce = wp_create_nonce('new_advertisement_nonce');  ?>
+                    <input type="hidden" name="new_advert_nonce" value="<?php echo $new_advertisement_nonce; ?>" />
                 </div>
                 <input type="submit" value="Submit" class="button-primary" style="margin-top: 20px;">
                 </form>

@@ -31,3 +31,15 @@
     display: inline-block;
     text-align: left;
 }
+
+.adv_admin_edit .adv-headings, .adv_admin_edit .form-fields p{
+    display: inline;
+}
+
+.adv_admin_edit .adv-headings, .adv_admin_edit .form-fields{
+    margin-top: 20px;
+}
+.adv_admin_edit .form-fields p{
+    font-size: 20px;
+    padding:10px 10px 10px 10px;
+}
