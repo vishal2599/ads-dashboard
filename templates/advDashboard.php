@@ -1,18 +1,15 @@
 <div class="ad-dashboard wrap">
     <h1 class="wp-heading-inline">Advertisements</h1>
-    <?php if (in_array('advertiser', (array) $user->roles) || in_array('administrator', (array) $user->roles)) : ?>
+    <?php if (in_array('advertiser', (array) $user->roles) ) : ?>
         <a href="/wp-admin/admin.php?page=advertisers_dashboard&ad_type=new" class="page-title-action ad-new-ad">Add New</a>
     <?php endif; ?>
     <table id="adv-dashboard">
         <thead>
             <tr role="row">
-                <th>ID</th>
                 <?php if (in_array('administrator', (array) $user->roles)) : ?>
                     <th>Publisher</th>
                 <?php endif; ?>
-                <th>Banner</th>
-                <th>URL</th>
-                <!-- <th>Shortcode</th> -->
+                <th>Membership Type</th>
                 <th>Status</th>
                 <?php if (in_array('administrator', (array) $user->roles)) : ?>
                     <th>Edit</th>
@@ -39,13 +36,10 @@
         </tbody>
         <tfoot>
             <tr role="row">
-                <th>ID</th>
                 <?php if (in_array('administrator', (array) $user->roles)) : ?>
                     <th>Publisher</th>
                 <?php endif; ?>
-                <th>Banner</th>
-                <th>URL</th>
-                <!-- <th>Shortcode</th> -->
+                <th>Membership Type</th>
                 <th>Status</th>
                 <?php if (in_array('administrator', (array) $user->roles)) : ?>
                     <th>Edit</th>

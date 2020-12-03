@@ -20,7 +20,6 @@ final class Init
             Pages\Admin::class,
             Base\Enqueue::class,
             Base\SettingsLinks::class,
-            Base\Shortcode::class,
             Base\Publish::class,
             Base\AdGenerator::class
         ];
