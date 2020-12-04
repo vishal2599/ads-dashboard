@@ -3,15 +3,15 @@
 
     $(function () {
 
-        $('#upload_adv_banner').on('click', open_custom_media_window);
-        $('#upload_adv_in_story').on('click', open_custom_media_window);
-        $('#upload_adv_footer').on('click', open_custom_media_window);
-        $('#upload_adv_sidebar_one').on('click', open_custom_media_window);
-        $('#upload_adv_sidebar_two').on('click', open_custom_media_window);
+        $('.adv-create-ad #banner').on('click', open_custom_media_window);
+        $('.adv-create-ad #in_story').on('click', open_custom_media_window);
+        $('.adv-create-ad #footer').on('click', open_custom_media_window);
+        $('.adv-create-ad #sidebar_one').on('click', open_custom_media_window);
+        $('.adv-create-ad #sidebar_two').on('click', open_custom_media_window);
         $('#adv-dashboard').DataTable();
 
         function open_custom_media_window() {
-            var container = $(this).parent().parent().attr('class');
+            var container = $(this).attr('id');
             console.log(container);
             if (this.window === undefined) {
                 this.window = wp.media({

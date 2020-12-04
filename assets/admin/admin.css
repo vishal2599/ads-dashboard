@@ -13,23 +13,13 @@
 .adv-create-ad .adv-headings, .adv-create-ad input[type="text"]{
     display: inline-block;
 }
-.adv-create-ad .banner, .adv-create-ad .in_story, .adv-create-ad .footer, .adv-create-ad .sidebar_one, .adv-create-ad .sidebar_two{
+.adv-create-ad .form-fields{
     margin-top: 20px;
     width: 100%;
 }
 
-.adv-create-ad .banner input[type="text"], .adv-create-ad .in_story input[type="text"], .adv-create-ad .footer input[type="text"], .adv-create-ad .sidebar_one input[type="text"], .adv-create-ad .sidebar_two input[type="text"]{
+.adv-create-ad .form-fields input[type="text"]{
     width:300px;
-}
-.adv-create-ad .banner .image, .adv-create-ad .in_story .image, .adv-create-ad .footer .image, .adv-create-ad .sidebar_one .image, .adv-create-ad .sidebar_two .image{
-    width: 55%;
-    display: inline-block;
-    text-align: left;
-} 
-.adv-create-ad .banner .url, .adv-create-ad .in_story .url, .adv-create-ad .footer .url, .adv-create-ad .sidebar_one .url, .adv-create-ad .sidebar_two .url{
-    width: 35%;
-    display: inline-block;
-    text-align: left;
 }
 
 .adv_admin_edit .adv-headings, .adv_admin_edit .form-fields p{
