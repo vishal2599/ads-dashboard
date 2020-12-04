@@ -19,8 +19,8 @@ class AdGenerator extends BaseController
     {
         check_ajax_referer('advDashboardCreate', 'nonce');
         global $wpdb;
-        $sql = 'SELECT id FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1';
-        $ids = $wpdb->get_col($sql);
+        $sql = 'SELECT id FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 ORDER BY RAND() LIMIT 5;';
+        $ids = $wpdb->get_results($sql);
 
         $random_id = $ids[array_rand($ids)];
         $sql2 = "SELECT * FROM " . $wpdb->prefix . "advertisements_dash WHERE id=$random_id";

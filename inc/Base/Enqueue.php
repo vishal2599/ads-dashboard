@@ -27,6 +27,6 @@ class Enqueue extends BaseController
     public function frontendEnqueue()
     {
         wp_enqueue_script('advfrontend-js', $this->plugin_url . 'assets/frontend/frontend.js', ['jquery']);
-        wp_localize_script('advfrontend-js', 'advAjax', ['url' => 'http://threefortyb.wpengine.com/wp-admin/admin-ajax.php', 'nonce' => wp_create_nonce('advDashboardCreate')]);
+        wp_localize_script('advfrontend-js', 'advAjax', ['url' => 'http://mmma.com/wp-admin/admin-ajax.php', 'nonce' => wp_create_nonce('advDashboardCreate')]);
     }
 }
