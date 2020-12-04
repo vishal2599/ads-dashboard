@@ -8,6 +8,7 @@ $data = $wpdb->get_row($mysql);
     <h1 class="wp-heading-inline">Manage Your Ads</h1>
     <h2 class="wp-heading-inline">Your Plan Level: <a href="javascript:void(0);"><?php echo ucwords(str_replace('_', ' ',$data->membership_type)); ?></a></h1>
     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" name='adv_dashboard_form' enctype='multipart/form-data'>
+    <?php if(!empty($data) && $data->membership_type != 'emerald'): ?>
         <div class="form-fields banner">
             <h3>Banner Ad: </h3>
             <div class="image">
@@ -19,6 +20,7 @@ $data = $wpdb->get_row($mysql);
                 <input type='text' placeholder="Affiliate URL" name='banner_url' <?php echo (!empty($data)) ? 'value=' . $data->banner_url : ''; ?>>
             </div>
         </div>
+    <?php endif; ?>
         <div class="form-fields in_story">
             <h3>In-Article Ad: </h3>
             <div class="image">
