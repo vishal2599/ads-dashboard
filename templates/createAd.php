@@ -1,12 +1,13 @@
+<?php
+$mysql = 'SELECT ' . $wpdb->prefix . 'advertisements_dash.*, ' . $wpdb->prefix . 'users.user_nicename FROM ' . $wpdb->prefix . 'advertisements_dash INNER JOIN ' . $wpdb->prefix . 'users ON ' . $wpdb->prefix . 'advertisements_dash.user_id = ' . $wpdb->prefix . 'users.ID WHERE ' . $wpdb->prefix . 'advertisements_dash.user_id = ' . $user->ID;
+
+$data = $wpdb->get_row($mysql);
+
+?>
 <div class="adv-create-ad wrap">
     <h1 class="wp-heading-inline">Manage Your Ads</h1>
+    <h2 class="wp-heading-inline">Your Plan Level: <a href="javascript:void(0);"><?php echo ucwords(str_replace('_', ' ',$data->membership_type)); ?></a></h1>
     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" name='adv_dashboard_form' enctype='multipart/form-data'>
-        <?php
-        $mysql = 'SELECT ' . $wpdb->prefix . 'advertisements_dash.*, ' . $wpdb->prefix . 'users.user_nicename FROM ' . $wpdb->prefix . 'advertisements_dash INNER JOIN ' . $wpdb->prefix . 'users ON ' . $wpdb->prefix . 'advertisements_dash.user_id = ' . $wpdb->prefix . 'users.ID WHERE ' . $wpdb->prefix . 'advertisements_dash.user_id = ' . $user->ID;
-
-        $data = $wpdb->get_row($mysql);
-
-        ?>
         <div class="form-fields banner">
             <h3>Banner Ad: </h3>
             <div class="image">
