@@ -1,0 +1,17 @@
+.container.advDashboard.banner {
+    margin-bottom: 30px;
+}
+.container.advDashboard.banner,
+.container.advDashboard.sidebar_one,
+.container.advDashboard.sidebar_two,
+.container.advDashboard.in_story {
+    max-width: 100%;
+    padding: 0;
+}
+.container.advDashboard.banner img,
+.container.advDashboard.sidebar_one img,
+.container.advDashboard.sidebar_two img,
+.container.advDashboard.in_story img,
+.container.advDashboard.footer img {
+    max-width: 100%;
+}
