@@ -23,7 +23,6 @@ class Activate
             'read' => true,
             'upload_files' => true
         ]);
-
     }
 
     public function createTable()

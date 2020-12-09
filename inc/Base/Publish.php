@@ -14,6 +14,7 @@ class Publish extends BaseController
         add_action('admin_post_new_advert', [$this, 'handleAddition']);
         add_action('admin_post_edit_advert', [$this, 'handleUpdation']);
         add_action('admin_post_admin_edit_advert', [$this, 'handleAdvertisementPermissions']);
+        add_filter( 'ajax_query_attachments_args', [$this, 'wpb_show_current_user_attachments'] );
     }
 
     public function handleAddition()
@@ -80,5 +81,13 @@ class Publish extends BaseController
 
             wp_redirect('/wp-admin/admin.php?page=advertisers_dashboard');
         }
+    }
+    function wpb_show_current_user_attachments($query)
+    {
+        $user_id = get_current_user_id();
+        if ( $user_id && !current_user_can('activate_plugins') && !current_user_can('edit_others_posts') ) {
+            $query['author'] = $user_id;
+        }
+        return $query;
     }
 }
