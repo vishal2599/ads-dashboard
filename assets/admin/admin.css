@@ -42,3 +42,113 @@
 .adv-create-ad .url {
     margin: 0 0 30px 0;
 }
+
+
+/*new css as per new add form add*/
+.adv-create-ad .adv-form {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex
+}
+
+.adv-create-ad .advertise-add {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    width: 25%
+}
+
+.adv-create-ad .advertise-form {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center
+}
+
+.adv-create-ad .advertise-form .center-form {
+    width: 520px
+}
+
+.adv-create-ad .advertise-form .form-adver {
+    margin-top: 30px
+}
+
+.adv-create-ad .advertise-form .form-adver h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 0
+}
+
+.adv-create-ad .advertise-form .form-adver .form-fields {
+    margin-top: 5px
+}
+
+.adv-create-ad .advertise-form .form-adver .form-fields input[type="text"],
+.adv-create-ad .advertise-form .form-adver .form-fields textarea {
+    width: 100%
+}
+
+.adv-create-ad .advertise-form .form-adver .form-fields textarea {
+    height: 150px
+}
+
+.adv-create-ad .advertise-form .form-adver .form-fields .add-more {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border: 0 none;
+    background: none;
+    cursor: pointer;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    font-size: 14px;
+    padding: 0
+}
+
+.adv-create-ad .advertise-form .form-adver .form-fields .add-more .plus {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border: 1px solid #000;
+    border-radius: 50%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 20px;
+    height: 18px;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    line-height: 1;
+    margin-right: 10px;
+    position: relative;
+    width: 18px
+}
+
+.adv-create-ad .advertise-form .form-adver .form-fields .add-more .plus:before {
+    content: '';
+    background: #000;
+    height: 10px;
+    left: 50%;
+    margin-left: -1px;
+    position: absolute;
+    width: 2px
+}
+
+.adv-create-ad .advertise-form .form-adver .form-fields .add-more .plus:after {
+    background: #000;
+    content: '';
+    height: 10px;
+    left: 50%;
+    margin-left: -1px;
+    position: absolute;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    width: 2px
+}

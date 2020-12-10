@@ -7,8 +7,9 @@ $data = $wpdb->get_row($mysql);
 <div class="adv-create-ad wrap">
     <h1 class="wp-heading-inline">Manage Your Ads</h1>
     <h2 class="wp-heading-inline">Your Plan Level: <a href="javascript:void(0);"><?php echo ucwords(str_replace('_', ' ', $data->membership_type)); ?></a></h1>
-        <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" name='adv_dashboard_form' enctype='multipart/form-data'>
-        <?php if( isset($data->membership_type) && $data->membership_type != 'emerald' ): ?>
+    <form class="adv-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" name='adv_dashboard_form' enctype='multipart/form-data'>
+        <?php if (isset($data->membership_type) && $data->membership_type != 'emerald') : ?>
+        <div class="advertise-add">
             <div class="form-fields banner">
                 <h3>Banner Ad: </h3>
                 <div class="image">
@@ -22,7 +23,7 @@ $data = $wpdb->get_row($mysql);
                     <input type='text' placeholder="Affiliate URL" name='banner_url' <?php echo (!empty($data)) ? 'value=' . $data->banner_url : ''; ?>>
                 </div>
             </div>
-        <?php endif; ?>
+            <?php endif; ?>
             <div class="form-fields in_story">
                 <h3>In-Article Ad: </h3>
                 <div class="image">
@@ -82,5 +83,26 @@ $data = $wpdb->get_row($mysql);
                 <input type="hidden" name="new_advert_nonce" value="<?php echo $new_advertisement_nonce; ?>" />
             </div>
             <input type="submit" value="Submit" class="button-primary" style="margin-top: 20px;">
-        </form>
+        </div>
+        <div class="advertise-form">
+            <div class="center-form">
+                <h3>Please add the following information for the advertiser to include:</h3>
+                <div class="form-adver">
+                    <h4>Company Profile:</h4>
+                    <div class="form-fields"><input type="text" placeholder="Company name as it will appear in the Experts Directory"></div>
+                    <div class="form-fields"><input type="text" placeholder="Company website URL"></div>
+                    <div class="form-fields"><textarea placeholder="Please limit to one paragraph"></textarea></div>
+                </div>
+                <div class="form-adver">
+                    <h4>Upcoming Events:</h4>
+                    <div class="form-fields"><input type="text" placeholder="Date of Event"></div>
+                    <div class="form-fields"><input type="text" placeholder="Title of Event"></div>
+                    <div class="form-fields"><textarea placeholder="Event Description" spellcheck="false"></textarea></div>
+                </div>
+                <div class="form-adver">
+                    <div class="form-fields"><button class="add-more"><span class="plus"></span>Add Another Events</button></div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>

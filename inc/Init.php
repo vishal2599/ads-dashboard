@@ -21,7 +21,8 @@ final class Init
             Base\Enqueue::class,
             Base\SettingsLinks::class,
             Base\Publish::class,
-            Base\AdGenerator::class
+            Base\AdGenerator::class,
+            Base\User::class
         ];
     }
 

@@ -29,7 +29,15 @@ class Activate
     {
         global $wpdb;
         $table_name = $wpdb->prefix . 'advertisements_dash';
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name(id int(10) NOT NULL PRIMARY KEY AUTO_INCREMENT, user_id int(10) NOT NULL, banner_id int(10), banner_url text, in_story_id int(10), in_story_url text, footer_id int(10), footer_url text, sidebar_one_id int(10), sidebar_one_url text, sidebar_two_id int(10),sidebar_two_url text, membership_type varchar(255), status BOOL DEFAULT 0);";
+        $sql = "CREATE TABLE IF NOT EXISTS $table_name(
+            `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+            `user_id` int(10) NOT NULL,
+            `ad_data` longtext DEFAULT NULL CHECK (json_valid(`ad_data`)),
+            `company_data` longtext DEFAULT NULL CHECK (json_valid(`company_data`)),
+            `event_data` longtext DEFAULT NULL CHECK (json_valid(`event_data`)),
+            `membership_type` varchar(255) DEFAULT NULL,
+            `status` tinyint(1) DEFAULT 0
+          );";
         $wpdb->query($sql);
     }
 }
