@@ -1,44 +1,53 @@
-#adv-dashboard_wrapper{
+#adv-dashboard_wrapper {
     margin-top: 30px;
 }
+
 #adv-dashboard_wrapper #adv-dashboard_length select {
-    background-color:#fff ;
-    width:100px;
+    background-color: #fff;
+    width: 100px;
 }
 
-#adv-dashboard_filter input{
-    background-color:#fff;
+#adv-dashboard_filter input {
+    background-color: #fff;
 }
 
-.adv-create-ad .adv-headings, .adv-create-ad input[type="text"]{
+.adv-create-ad .adv-headings,
+.adv-create-ad input[type="text"] {
     display: inline-block;
 }
-.adv-create-ad .form-fields{
+
+.adv-create-ad .form-fields {
     margin-top: 20px;
     width: 100%;
 }
 
-.adv-create-ad .form-fields input[type="text"]{
-    width:300px;
+.adv-create-ad .form-fields input[type="text"] {
+    width: 300px;
 }
 
-.adv_admin_edit .adv-headings, .adv_admin_edit .form-fields p{
+.adv_admin_edit .adv-headings,
+.adv_admin_edit .form-fields p {
     display: inline;
 }
 
-.adv_admin_edit .adv-headings, .adv_admin_edit .form-fields{
+.adv_admin_edit .adv-headings,
+.adv_admin_edit .form-fields {
     margin-top: 20px;
 }
-.adv_admin_edit .form-fields p{
+
+.adv_admin_edit .form-fields p {
     font-size: 20px;
-    padding:10px 10px 10px 10px;
+    padding: 10px 10px 10px 10px;
 }
+
 .adv-create-ad h3 {
-    margin: 25px  0 5px 0;
+    margin: 25px 0 5px 0;
 }
+
 .adv-create-ad .btn {
     margin: 5px 0 10px 0;
 }
+
 .adv-create-ad .url {
     margin: 0 0 30px 0;
 }
@@ -89,7 +98,8 @@
 }
 
 .adv-create-ad .advertise-form .form-adver .form-fields input[type="text"],
-.adv-create-ad .advertise-form .form-adver .form-fields textarea {
+.adv-create-ad .advertise-form .form-adver .form-fields textarea,
+.adv-create-ad .advertise-form .form-adver .form-fields input[type="date"] {
     width: 100%
 }
 
@@ -108,7 +118,9 @@
     display: -ms-inline-flexbox;
     display: inline-flex;
     font-size: 14px;
-    padding: 0
+    padding: 0;
+    text-decoration: none;
+    color: #000;
 }
 
 .adv-create-ad .advertise-form .form-adver .form-fields .add-more .plus {

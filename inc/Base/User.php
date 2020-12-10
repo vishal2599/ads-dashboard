@@ -14,7 +14,7 @@ class User extends BaseController
         add_filter('ajax_query_attachments_args', [$this, 'wpb_show_current_user_attachments']);
         add_action('update_advDashboard', 'execute_advDashboard');
         if (!wp_next_scheduled('update_advDashboard')) {
-            wp_schedule_event(time(), 'five_seconds', 'execute_advDashboard');
+            wp_schedule_event(time(), 'hourly', 'execute_advDashboard');
         }
     }
     public function wpb_show_current_user_attachments($query)
