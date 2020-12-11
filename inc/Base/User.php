@@ -12,9 +12,9 @@ class User extends BaseController
     public function register()
     {
         add_filter('ajax_query_attachments_args', [$this, 'wpb_show_current_user_attachments']);
-        add_action('update_advDashboard', 'execute_advDashboard');
+        add_action('update_advDashboard', [$this, 'execute_advDashboard']);
         if (!wp_next_scheduled('update_advDashboard')) {
-            wp_schedule_event(time(), 'hourly', 'execute_advDashboard');
+            wp_schedule_event(time(), 'hourly', 'update_advDashboard');
         }
     }
     public function wpb_show_current_user_attachments($query)

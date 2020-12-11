@@ -22,14 +22,14 @@ class AdGenerator extends BaseController
         $case = '';
         if ($_REQUEST['container'] == 'home') {
             $case = 1;
-            $sql = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 ORDER BY RAND(), FIELD(membership_type, "ultra_diamond", "diamond", "emerald") LIMIT 5;';
+            $sql = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 AND ad_data IS NOT NULL ORDER BY RAND(), FIELD(membership_type, "ultra_diamond", "diamond", "emerald") LIMIT 5;';
         } elseif ($_REQUEST['container'] == 'post') {
             if ((int)$_REQUEST['cat_id'] == 2) {
                 $case = 2;
-                $sql = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 AND membership_type="ultra_diamond" ORDER BY RAND() LIMIT 5;';
+                $sql = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 AND ad_data IS NOT NULL AND membership_type="ultra_diamond" ORDER BY RAND() LIMIT 5;';
             } else {
                 $case = 3;
-                $sql = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 ORDER BY RAND(), FIELD(membership_type, "ultra_diamond", "diamond", "emerald") LIMIT 5;';
+                $sql = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 AND ad_data IS NOT NULL ORDER BY RAND(), FIELD(membership_type, "ultra_diamond", "diamond", "emerald") LIMIT 5;';
             }
         }
         $ids = $wpdb->get_results($sql);
