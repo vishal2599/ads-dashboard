@@ -65,7 +65,7 @@ class Publish extends BaseController
                     'event_data' => json_encode($event_data)
                 ],
                 [
-                    'user_id' => (int)$_POST['advertiser_id']
+                    'user_id' => $user->ID
                 ]);
             } else {
                 $wpdb->insert($wpdb->prefix . 'advertisements_dash', array(
@@ -86,6 +86,7 @@ class Publish extends BaseController
         if (isset($_POST['new_advert_nonce']) && wp_verify_nonce($_POST['new_advert_nonce'], 'new_advertisement_nonce')) {
 
             global $wpdb;
+            $user = wp_get_current_user();
             $ad_data = [
                 'banner_id' => sanitize_text_field($_POST['upload_adv_banner']),
                 'in_story_id' => sanitize_text_field($_POST['upload_adv_in_story']),
@@ -126,7 +127,7 @@ class Publish extends BaseController
                 'event_data' => json_encode($event_data)
             ],
             [
-                'user_id' => (int)$_POST['advertiser_id']
+                'user_id' => $user->ID
             ]);
 
             wp_redirect('/wp-admin/admin.php?page=advertisers_dashboard');
@@ -137,13 +138,25 @@ class Publish extends BaseController
     {
         if (isset($_POST['edit_advertisement_data_nonce']) && wp_verify_nonce($_POST['edit_advertisement_data_nonce'], 'edit_advertisement_data_nonce')) {
             global $wpdb;
-
+            $user = wp_get_current_user();
+            
+            $ad_id = (int)$_POST['advert_id'];
+            $sql = 'SELECT id FROM ' . $wpdb->prefix . 'advertisements_dash WHERE id='.$ad_id;
+            $res = $wpdb->get_row($sql);
+            if( !empty($res) ){
             $wpdb->update($wpdb->prefix . 'advertisements_dash', array(
                 'membership_type' => $_POST['membership_type'],
                 'status' => $_POST['status']
             ), [
                 'id' => (int)$_POST['advert_id']
             ]);
+            } else {
+                $wpdb->insert($wpdb->prefix . 'advertisements_dash', array(
+                    'membership_type' => $_POST['membership_type'],
+                    'status' => $_POST['status'],
+                    'user_id' =>  $user->ID
+                ));
+            }
 
             wp_redirect('/wp-admin/admin.php?page=advertisers_dashboard');
         }

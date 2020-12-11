@@ -28,6 +28,6 @@ class Enqueue extends BaseController
     {
         wp_enqueue_script('advfrontend-js', $this->plugin_url . 'assets/frontend/frontend.js', ['jquery']);
         wp_enqueue_style('advfrontend-css', $this->plugin_url . 'assets/frontend/frontend.css');
-        wp_localize_script('advfrontend-js', 'advAjax', ['url' => 'http://mmma.com/wp-admin/admin-ajax.php', 'nonce' => wp_create_nonce('advDashboardCreate')]);
+        wp_localize_script('advfrontend-js', 'advAjax', ['url' => 'http://threefortyb.wpengine.com/wp-admin/admin-ajax.php', 'nonce' => wp_create_nonce('advDashboardCreate')]);
     }
 }

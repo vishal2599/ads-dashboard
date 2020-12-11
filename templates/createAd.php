@@ -24,7 +24,7 @@ if( !empty($data) ){
                     <input type="button" value="Upload/Change" class="button-primary" id="banner" />
                 </div>
                 <div class="url">
-                    <input type='text' placeholder="Affiliate URL" name='banner_url' <?php echo (!empty($ad_data)) ? 'value=' . $ad_data->banner_url : ''; ?> required>
+                    <input type='text' placeholder="Affiliate URL" name='banner_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->banner_url.'"' : ''; ?> required>
                 </div>
             </div>
             <?php endif; ?>
@@ -38,7 +38,7 @@ if( !empty($data) ){
                     <input type="button" value="Upload/Change" class="button-primary" id="in_story" />
                 </div>
                 <div class="url">
-                    <input type='text' placeholder="Affiliate URL" name='in_story_url' <?php echo (!empty($ad_data)) ? 'value=' . $ad_data->in_story_url : ''; ?> required>
+                    <input type='text' placeholder="Affiliate URL" name='in_story_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->in_story_url.'"' : ''; ?> required>
                 </div>
             </div>
             <div class="form-fields footer">
@@ -51,7 +51,7 @@ if( !empty($data) ){
                     <input type="button" value="Upload/Change" class="button-primary" id="footer" />
                 </div>
                 <div class="url">
-                    <input type='text' placeholder="Affiliate URL" name='footer_url' <?php echo (!empty($ad_data)) ? 'value=' . $ad_data->footer_url : ''; ?> required>
+                    <input type='text' placeholder="Affiliate URL" name='footer_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->footer_url.'"' : ''; ?> required>
                 </div>
             </div>
             <div class="form-fields sidebar_one">
@@ -64,7 +64,7 @@ if( !empty($data) ){
                     <input type="button" value="Upload/Change" class="button-primary" id="sidebar_one" />
                 </div>
                 <div class="url">
-                    <input type='text' placeholder="Affiliate URL" name='sidebar_one_url' <?php echo (!empty($ad_data)) ? 'value=' . $ad_data->sidebar_one_url : ''; ?> required>
+                    <input type='text' placeholder="Affiliate URL" name='sidebar_one_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_one_url.'"' : ''; ?> required>
                 </div>
             </div>
             <div class="form-fields sidebar_two">
@@ -77,7 +77,7 @@ if( !empty($data) ){
                     <input type="button" value="Upload/Change" class="button-primary" id="sidebar_two" />
                 </div>
                 <div class="url">
-                    <input type='text' placeholder="Affiliate URL" name='sidebar_two_url' <?php echo (!empty($ad_data)) ? 'value=' . $ad_data->sidebar_two_url : ''; ?> required>
+                    <input type='text' placeholder="Affiliate URL" name='sidebar_two_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_two_url.'"' : ''; ?> required>
                 </div>
             </div>
             <div class="form-fields-not-visible">
