@@ -8,6 +8,7 @@
         $('.adv-create-ad #footer').on('click', open_custom_media_window);
         $('.adv-create-ad #sidebar_one').on('click', open_custom_media_window);
         $('.adv-create-ad #sidebar_two').on('click', open_custom_media_window);
+        $('.adv-create-ad #company_logo').on('click', open_custom_media_window);
         $('#adv-dashboard').DataTable();
         $('.form-adver .add-more').on('click', function(){
             $('<div class="form-adver upcoming-events"><div class="form-fields"><input name="event_date[]" type="date" placeholder="Date of Event"></div><div class="form-fields"><input name="event_title[]" type="text" placeholder="Title of Event"></div><div class="form-fields"><textarea name="event_description[]" placeholder="Event Description" spellcheck="false"></textarea></div></div>').insertAfter('.form-adver.upcoming-events:last');

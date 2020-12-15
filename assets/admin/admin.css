@@ -1,13 +1,13 @@
-form#your-profile h2,
-form#your-profile .form-table,
-form#your-profile .form-table:nth-child(9) tr,
-form#your-profile .user-sessions-wrap {
+body.role-advertiser form#your-profile h2,
+body.role-advertiser form#your-profile .form-table,
+body.role-advertiser form#your-profile .form-table:nth-child(9) tr,
+body.role-advertiser form#your-profile .user-sessions-wrap {
     display: none;
 }
 
-form#your-profile .form-table:nth-child(9),
-form#your-profile .form-table:nth-child(9) .user-email-wrap,
-form#your-profile .form-table:nth-child(13) {
+body.role-advertiser form#your-profile .form-table:nth-child(9),
+body.role-advertiser form#your-profile .form-table:nth-child(9) .user-email-wrap,
+body.role-advertiser form#your-profile .form-table:nth-child(13) {
     display: block;
 }
 
@@ -176,4 +176,7 @@ form#your-profile .form-table:nth-child(13) {
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
     width: 2px
+}
+.adv-create-ad .warning{
+    color: red;
 }

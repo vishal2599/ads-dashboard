@@ -36,6 +36,7 @@ class Publish extends BaseController
             ];
 
             $company_data = [
+                'company_logo' => sanitize_text_field($_POST['company_logo']),
                 'company_name' => sanitize_text_field($_POST['company_name']),
                 'company_url' => sanitize_text_field($_POST['company_url']),
                 'company_description' => sanitize_text_field($_POST['company_description'])
@@ -107,6 +108,7 @@ class Publish extends BaseController
             ];
 
             $company_data = [
+                'company_logo' => sanitize_text_field($_POST['company_logo']),
                 'company_name' => sanitize_text_field($_POST['company_name']),
                 'company_url' => sanitize_text_field($_POST['company_url']),
                 'company_description' => sanitize_text_field($_POST['company_description'])
