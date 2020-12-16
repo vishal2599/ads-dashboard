@@ -20,7 +20,7 @@
                     <td class=" dt-body-center" style="color:<?php echo ($row->status) ? 'green' : 'red'; ?>"><b><?php echo ($row->status) ? 'Active' : 'Inactive'; ?></b></td>
                     <td class=" dt-body-center"><a href="/wp-admin/admin.php?page=advertisers_dashboard&ad_type=edit&advert_id=<?php echo $row->id; ?>" class="page-title-action ad-new-ad">Edit</a></td>
                 </tr>
-            <?php endforeach; ?>
+            <?php $i++; endforeach; ?>
         </tbody>
         <tfoot>
             <tr role="row">

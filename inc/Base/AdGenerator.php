@@ -22,62 +22,74 @@ class AdGenerator extends BaseController
         $case = '';
         if ($_REQUEST['container'] == 'home') {
             $case = 1;
-            $sql = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 AND ad_data IS NOT NULL ORDER BY RAND(), FIELD(membership_type, "ultra_diamond", "diamond", "emerald") LIMIT 5;';
+            $sql1 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type="ultra_diamond" AND status=1 AND ad_data IS NOT NULL ORDER BY RAND() LIMIT 3;';
+            $r1 = $wpdb->get_results($sql1);
+
+            $sql2 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type="diamond" AND status=1 AND ad_data IS NOT NULL ORDER BY RAND() LIMIT 1;';
+            $r2 = $wpdb->get_results($sql2);
+
+            $sql3 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type="emerald" AND status=1 AND ad_data IS NOT NULL ORDER BY RAND() LIMIT 1;';
+            $r3 = $wpdb->get_results($sql3);
+
+            $ids = array_merge($r1, $r2, $r3);
         } elseif ($_REQUEST['container'] == 'post') {
             if ((int)$_REQUEST['cat_id'] == 2) {
                 $case = 2;
                 $sql = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 AND ad_data IS NOT NULL AND membership_type="ultra_diamond" ORDER BY RAND() LIMIT 5;';
+                $ids = $wpdb->get_results($sql);
             } else {
                 $case = 3;
-                $sql = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 AND ad_data IS NOT NULL ORDER BY RAND(), FIELD(membership_type, "ultra_diamond", "diamond", "emerald") LIMIT 5;';
+                $sql1 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type="ultra_diamond" AND status=1 AND ad_data IS NOT NULL ORDER BY RAND() LIMIT 3;';
+                $r1 = $wpdb->get_results($sql1);
+
+                $sql2 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type="diamond" AND status=1 AND ad_data IS NOT NULL ORDER BY RAND() LIMIT 1;';
+                $r2 = $wpdb->get_results($sql2);
+
+                $sql3 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type="emerald" AND status=1 AND ad_data IS NOT NULL ORDER BY RAND() LIMIT 1;';
+                $r3 = $wpdb->get_results($sql3);
+
+                $ids = array_merge($r1, $r2, $r3);
             }
         }
-        $ids = $wpdb->get_results($sql);
-        $ad_types = ['banner', 'in_story', 'footer', 'sidebar_one', 'sidebar_two'];
+        // $ids = $wpdb->get_results($sql);
+        $ad_types = ['banner', 'in_story', 'sidebar_one', 'sidebar_two', 'footer'];
 
         $html = [];
         for ($i = 0; $i < 5; $i++) :
             switch ($i) {
                 case 0:
-                    $rand = rand(0, count($ids) - 1);
+                    $rand = (count($ids) < 5 ) ? rand(0, count($ids) -1) : $i;
                     $ad_data = json_decode($ids[$rand]->ad_data);
                     $image = wp_get_attachment_url($ad_data->banner_id);
                     $url =  $ad_data->banner_url;
-                    if ($ids[$rand]->membership_type == 'emerald' && $case == 1) {
-                        $sql = 'SELECT ad_data FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 AND ( membership_type="diamond" OR membership_type="ultra_diamond" ) ORDER BY RAND() LIMIT 1;';
-                        $result = $wpdb->get_results($sql);
-                        $ad_data = json_decode($result[0]->ad_data);
-                        $html[$ad_types[$i]] .= '<div class="container advDashboard banner"><a target="_blank" href="'.$ad_data->banner_url.'"><img src="' . $ad_data->banner_id . '"></a></div>';
-                    } else {
-                        $html[$ad_types[$i]] .= '<div class="container advDashboard ' . $ad_types[$i] . '"><a target="_blank" href="' . $url . '"><img src="' . $image . '"></a></div>';
-                    }
+                    $html[$ad_types[$i]] .= '<div class="container advDashboard ' . $ad_types[$i] . '"><a target="_blank" href="' . $url . '"><img src="' . $image . '"></a></div>';
                     break;
                 case 1:
-                    $rand = rand(0, count($ids) - 1);
+                    $rand = (count($ids) < 5 ) ? rand(0, count($ids) -1) : $i;
                     $ad_data = json_decode($ids[$rand]->ad_data);
                     $image = wp_get_attachment_url($ad_data->in_story_id);
                     $url =  $ad_data->in_story_url;
                     $html[$ad_types[$i]] .= '<div class="container advDashboard ' . $ad_types[$i] . '"><a target="_blank" href="' . $url . '"><img src="' . $image . '"></a></div>';
                     break;
                 case 2:
-                    $rand = rand(0, count($ids) - 1);
-                    $ad_data = json_decode($ids[$rand]->ad_data);
-                    $image = wp_get_attachment_url($ad_data->footer_id);
-                    $url =  $ad_data->footer_url;
-                    $html[$ad_types[$i]] .= '<div class="container advDashboard ' . $ad_types[$i] . '"><a target="_blank" href="' . $url . '"><img src="' . $image . '"></a></div>';
-                    break;
-                case 3:
-                    $rand = rand(0, count($ids) - 1);
+                    $rand = (count($ids) < 5 ) ? rand(0, count($ids) -1) : $i;
                     $ad_data = json_decode($ids[$rand]->ad_data);
                     $image = wp_get_attachment_url($ad_data->sidebar_one_id);
                     $url =  $ad_data->sidebar_one_url;
                     $html[$ad_types[$i]] .= '<div class="container advDashboard ' . $ad_types[$i] . '"><a target="_blank" href="' . $url . '"><img src="' . $image . '"></a></div>';
                     break;
-                case 4:
-                    $rand = rand(0, count($ids) - 1);
+                case 3:
+                    $rand = (count($ids) < 5 ) ? rand(0, count($ids) -1) : $i;
                     $ad_data = json_decode($ids[$rand]->ad_data);
                     $image = wp_get_attachment_url($ad_data->sidebar_two_id);
                     $url =  $ad_data->sidebar_two_url;
+                    $html[$ad_types[$i]] .= '<div class="container advDashboard ' . $ad_types[$i] . '"><a target="_blank" href="' . $url . '"><img src="' . $image . '"></a></div>';
+                    break;
+                case 4:
+                    $rand = (count($ids) < 5 ) ? rand(0, count($ids) -1) : $i;
+                    $ad_data = json_decode($ids[$rand]->ad_data);
+                    $image = wp_get_attachment_url($ad_data->footer_id);
+                    $url =  $ad_data->footer_url;
                     $html[$ad_types[$i]] .= '<div class="container advDashboard ' . $ad_types[$i] . '"><a target="_blank" href="' . $url . '"><img src="' . $image . '"></a></div>';
                     break;
             }
