@@ -58,7 +58,7 @@ class AdGenerator extends BaseController
         for ($i = 0; $i < 5; $i++) :
             switch ($i) {
                 case 0:
-                    $rand = (count($ids) < 5 ) ? rand(0, count($ids) -1) : $i;
+                    $rand = $i;
                     $ad_data = json_decode($ids[$rand]->ad_data);
                     $image = wp_get_attachment_url($ad_data->banner_id);
                     $url =  $ad_data->banner_url;

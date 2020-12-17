@@ -105,6 +105,7 @@ if (!empty($data)) {
                             </div>
                             <div class="btn">
                                 <input type="button" value="Upload Logo" class="button-primary" id="company_logo" />
+                                <p class="warning">( Recommended Dimension: 800w X 600h)</p>
                             </div>
                         </div>
                         <div class="form-fields"><input name="company_name" type="text" <?php echo (!empty($company_data)) ? 'value=' . $company_data->company_name : ''; ?> placeholder="Company name as it will appear in the Experts Directory"></div>
