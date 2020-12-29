@@ -21,6 +21,23 @@ class Admin extends BaseController
         if (in_array('advertiser', (array) $user->roles) || in_array('administrator', (array) $user->roles)) :
             add_menu_page('Advertisers Dashboard', 'Ads Dashboard', 'read', 'advertisers_dashboard', [$this, 'admin_index'], 'dashicons-store', 110);
         endif;
+        if (in_array('administrator', (array) $user->roles)) :
+            add_submenu_page('advertisers_dashboard', 'Experts Directory', 'Experts Directory', 'read', 'adv_experts_directory', [$this, 'expertsDirectory']);
+        endif;
+    }
+
+    public function setSubpages()
+    {
+        $this->subpages = array(
+            array(
+                'parent_slug' => 'advertisers_dashboard',
+                'page_title' => 'Expert Directories',
+                'menu_title' => 'Expert Directories',
+                'capability' => 'read',
+                'menu_slug' => 'expert_directories',
+                'callback' => array($this->callbacks, 'adminCpt')
+            )
+        );
     }
 
     public function admin_index()
@@ -41,6 +58,17 @@ class Admin extends BaseController
             require_once $this->plugin_path . 'templates/editAdvert.php';
         else :
             require_once $this->plugin_path . 'templates/advDashboard.php';
+        endif;
+    }
+
+    public function expertsDirectory()
+    {
+        $user = wp_get_current_user();
+        if (in_array('administrator', (array) $user->roles)) :
+            global $wpdb;
+            $sql = 'SELECT * FROM ' . $wpdb->prefix . 'adv_expert_categories';
+            $result = $wpdb->get_results($sql);
+            require_once $this->plugin_path . 'templates/expertCategories.php';
         endif;
     }
 }

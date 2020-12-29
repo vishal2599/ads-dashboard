@@ -14,6 +14,8 @@ class Publish extends BaseController
         add_action('admin_post_new_advert', [$this, 'handleAddition']);
         add_action('admin_post_edit_advert', [$this, 'handleUpdation']);
         add_action('admin_post_admin_edit_advert', [$this, 'handleAdvertisementPermissions']);
+        add_action('admin_post_create_expCat', [$this, 'createExpCategory']);
+        add_action('admin_post_delete_expCat', [$this, 'deleteExpCategory']);
     }
 
     public function handleAddition()
@@ -23,23 +25,23 @@ class Publish extends BaseController
             $user = wp_get_current_user();
 
             $ad_data = [
-                'banner_id' => sanitize_text_field($_POST['upload_adv_banner']),
-                'in_story_id' => sanitize_text_field($_POST['upload_adv_in_story']),
-                'footer_id' => sanitize_text_field($_POST['upload_adv_footer']),
-                'sidebar_one_id' => sanitize_text_field($_POST['upload_adv_sidebar_one']),
-                'sidebar_two_id' => sanitize_text_field($_POST['upload_adv_sidebar_two']),
-                'banner_url' => sanitize_text_field($_POST['banner_url']),
-                'in_story_url' => sanitize_text_field($_POST['in_story_url']),
-                'footer_url' => sanitize_text_field($_POST['footer_url']),
-                'sidebar_one_url' => sanitize_text_field($_POST['sidebar_one_url']),
-                'sidebar_two_url' => sanitize_text_field($_POST['sidebar_two_url']),
+                'banner_id' => $_POST['upload_adv_banner'],
+                'in_story_id' => $_POST['upload_adv_in_story'],
+                'footer_id' => $_POST['upload_adv_footer'],
+                'sidebar_one_id' => $_POST['upload_adv_sidebar_one'],
+                'sidebar_two_id' => $_POST['upload_adv_sidebar_two'],
+                'banner_url' => $_POST['banner_url'],
+                'in_story_url' => $_POST['in_story_url'],
+                'footer_url' => $_POST['footer_url'],
+                'sidebar_one_url' => $_POST['sidebar_one_url'],
+                'sidebar_two_url' => $_POST['sidebar_two_url'],
             ];
 
             $company_data = [
-                'company_logo' => sanitize_text_field($_POST['company_logo']),
-                'company_name' => sanitize_text_field($_POST['company_name']),
-                'company_url' => sanitize_text_field($_POST['company_url']),
-                'company_description' => sanitize_text_field($_POST['company_description'])
+                'company_logo' => $_POST['company_logo'],
+                'company_name' => $_POST['company_name'],
+                'company_url' => $_POST['company_url'],
+                'company_description' => $_POST['company_description']
             ];
             $event_data = [];
             $event_date = $_POST['event_date'];
@@ -95,23 +97,23 @@ class Publish extends BaseController
             global $wpdb;
             $user = wp_get_current_user();
             $ad_data = [
-                'banner_id' => sanitize_text_field($_POST['upload_adv_banner']),
-                'in_story_id' => sanitize_text_field($_POST['upload_adv_in_story']),
-                'footer_id' => sanitize_text_field($_POST['upload_adv_footer']),
-                'sidebar_one_id' => sanitize_text_field($_POST['upload_adv_sidebar_one']),
-                'sidebar_two_id' => sanitize_text_field($_POST['upload_adv_sidebar_two']),
-                'banner_url' => sanitize_text_field($_POST['banner_url']),
-                'in_story_url' => sanitize_text_field($_POST['in_story_url']),
-                'footer_url' => sanitize_text_field($_POST['footer_url']),
-                'sidebar_one_url' => sanitize_text_field($_POST['sidebar_one_url']),
-                'sidebar_two_url' => sanitize_text_field($_POST['sidebar_two_url']),
+                'banner_id' => $_POST['upload_adv_banner'],
+                'in_story_id' => $_POST['upload_adv_in_story'],
+                'footer_id' => $_POST['upload_adv_footer'],
+                'sidebar_one_id' => $_POST['upload_adv_sidebar_one'],
+                'sidebar_two_id' => $_POST['upload_adv_sidebar_two'],
+                'banner_url' => $_POST['banner_url'],
+                'in_story_url' => $_POST['in_story_url'],
+                'footer_url' => $_POST['footer_url'],
+                'sidebar_one_url' => $_POST['sidebar_one_url'],
+                'sidebar_two_url' => $_POST['sidebar_two_url'],
             ];
 
             $company_data = [
-                'company_logo' => sanitize_text_field($_POST['company_logo']),
-                'company_name' => sanitize_text_field($_POST['company_name']),
-                'company_url' => sanitize_text_field($_POST['company_url']),
-                'company_description' => sanitize_text_field($_POST['company_description'])
+                'company_logo' => $_POST['company_logo'],
+                'company_name' => $_POST['company_name'],
+                'company_url' => $_POST['company_url'],
+                'company_description' => $_POST['company_description']
             ];
             $event_data = [];
             $event_date = $_POST['event_date'];
@@ -168,5 +170,31 @@ class Publish extends BaseController
 
             wp_redirect('/wp-admin/admin.php?page=advertisers_dashboard');
         }
+    }
+
+    public function createExpCategory()
+    {
+        global $wpdb;
+        if (isset($_POST['expert_category_create_nonce']) && wp_verify_nonce($_POST['expert_category_create_nonce'], 'expert_category_create_nonce')):
+            $exp_category = $_POST['exp_category'];
+            $wpdb->insert($wpdb->prefix . 'adv_expert_categories', array(
+                'category_name' => $exp_category
+            ));
+
+            wp_redirect('/wp-admin/admin.php?page=adv_experts_directory');
+        endif;
+    }
+
+    public function deleteExpCategory()
+    {
+        global $wpdb;
+        if (isset($_POST['expert_category_delete_nonce']) && wp_verify_nonce($_POST['expert_category_delete_nonce'], 'expert_category_delete_nonce')):
+            $id = (int) $_POST['exp_category_id'];
+            $wpdb->delete($wpdb->prefix . 'adv_expert_categories', array(
+                'id' => $id
+            ));
+
+            wp_redirect('/wp-admin/admin.php?page=adv_experts_directory');
+        endif;
     }
 }
