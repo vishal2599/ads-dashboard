@@ -7,7 +7,8 @@
                 <th>Publisher</th>
                 <th>Membership Type</th>
                 <th>Status</th>
-                <th>Edit</th>
+                <th>Edit Membership</th>
+                <th>Edit Data</th>
             </tr>
         </thead>
         <tbody>
@@ -19,6 +20,7 @@
                     <td class=" dt-body-center"><?php echo ($row->membership_type == "") ? 'Please select Membership' : ucwords(str_replace('_', ' ',$row->membership_type)); ?></td>
                     <td class=" dt-body-center" style="color:<?php echo ($row->status) ? 'green' : 'red'; ?>"><b><?php echo ($row->status) ? 'Active' : 'Inactive'; ?></b></td>
                     <td class=" dt-body-center"><a href="/wp-admin/admin.php?page=advertisers_dashboard&ad_type=edit&advert_id=<?php echo $row->id; ?>" class="page-title-action ad-new-ad">Edit</a></td>
+                    <td class=" dt-body-center"><a href="/wp-admin/admin.php?page=advertisers_dashboard&ad_type=edit_data&user_id=<?php echo $row->user_id; ?>" class="page-title-action ad-new-ad">Modify</a></td>
                 </tr>
             <?php $i++; endforeach; ?>
         </tbody>
@@ -28,7 +30,8 @@
                 <th>Publisher</th>
                 <th>Membership Type</th>
                 <th>Status</th>
-                <th>Edit</th>
+                <th>Edit Membership</th>
+                <th>Edit Data</th>
             </tr>
         </tfoot>
     </table>

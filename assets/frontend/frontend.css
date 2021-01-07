@@ -15,3 +15,7 @@
 .container.advDashboard.footer img {
     max-width: 100%;
 }
+.captioned-image-container .image-link img {
+    max-width: 100% !important;
+    max-height: none !important;
+}

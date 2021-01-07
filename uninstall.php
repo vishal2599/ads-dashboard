@@ -15,5 +15,8 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 // Clear data stored in database
 
 global $wpdb;
-$table_name = $wpdb->prefix . 'advertisements_dash';
-$wpdb->query("DROP TABLE IF EXISTS $table_name");
+$table1 = $wpdb->prefix . 'advertisements_dash';
+$wpdb->query("DROP TABLE IF EXISTS $table1");
+
+$table2 = $wpdb->prefix . 'adv_expert_categories';
+$wpdb->query("DROP TABLE IF EXISTS $table2");

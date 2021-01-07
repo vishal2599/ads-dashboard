@@ -28,8 +28,8 @@ class Activate
     public function createTable()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'advertisements_dash';
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name(
+        $table1 = $wpdb->prefix . 'advertisements_dash';
+        $sql = "CREATE TABLE IF NOT EXISTS $table1(
             `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
             `user_id` int(10) NOT NULL,
             `ad_data` longtext DEFAULT NULL CHECK (json_valid(`ad_data`)),
@@ -39,5 +39,13 @@ class Activate
             `status` tinyint(1) DEFAULT 0
           );";
         $wpdb->query($sql);
+
+
+        $table2 = $wpdb->prefix . 'adv_expert_categories';
+        $sql2 = "CREATE TABLE IF NOT EXISTS $table2(
+            `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+            `category_name` VARCHAR(255) NOT NULL
+          );";
+        $wpdb->query($sql2);
     }
 }

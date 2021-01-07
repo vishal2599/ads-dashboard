@@ -1,5 +1,8 @@
 <?php
-$mysql = 'SELECT ' . $wpdb->prefix . 'advertisements_dash.*, ' . $wpdb->prefix . 'users.user_nicename FROM ' . $wpdb->prefix . 'advertisements_dash INNER JOIN ' . $wpdb->prefix . 'users ON ' . $wpdb->prefix . 'advertisements_dash.user_id = ' . $wpdb->prefix . 'users.ID WHERE ' . $wpdb->prefix . 'advertisements_dash.user_id = ' . $user->ID;
+
+$user_id = (isset($_GET['user_id'])) ? $_GET['user_id'] : $user->ID;
+
+$mysql = 'SELECT ' . $wpdb->prefix . 'advertisements_dash.*, ' . $wpdb->prefix . 'users.user_nicename FROM ' . $wpdb->prefix . 'advertisements_dash INNER JOIN ' . $wpdb->prefix . 'users ON ' . $wpdb->prefix . 'advertisements_dash.user_id = ' . $wpdb->prefix . 'users.ID WHERE ' . $wpdb->prefix . 'advertisements_dash.user_id = ' . $user_id;
 $data = $wpdb->get_row($mysql);
 if (!empty($data)) {
     $company_data = json_decode($data->company_data);
@@ -7,9 +10,12 @@ if (!empty($data)) {
     $event_data = json_decode($data->event_data);
 }
 
+$sql2 = 'SELECT `category_name` FROM ' . $wpdb->prefix . 'adv_expert_categories';
+$exp_cats = $wpdb->get_col($sql2);
+
 ?>
 <div class="adv-create-ad wrap">
-    <h1 class="wp-heading-inline">Manage Your Ads</h1>
+    <h1 class="wp-heading-inline"><?php echo (isset($_GET['user_id'])) ? 'Manage Ads of - ' . $data->user_nicename : 'Manage Your Ads'; ?></h1>
     <h2 class="wp-heading-inline">Your Plan Level: <a href="javascript:void(0);"><?php echo (isset($data->membership_type)) ? ucwords(str_replace('_', ' ', $data->membership_type)) : 'No Plan Selected'; ?></a></h1>
         <form class="adv-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" name='adv_dashboard_form' enctype='multipart/form-data'>
             <div class="advertise-add">
@@ -18,7 +24,7 @@ if (!empty($data)) {
                         <h3>Banner Ad: </h3>
                         <div class="image">
                             <img width="300" src="<?php echo (!empty($ad_data)) ? wp_get_attachment_url($ad_data->banner_id) : ''; ?>" class="image" style="margin-top:10px;" />
-                            <input type="hidden" name="upload_adv_banner" class="wp_attachment_id" value="<?php echo (!empty($ad_data)) ?  $ad_data->banner_id : ''; ?>" />
+                            <input type="hidden" name="upload_adv_banner" class="wp_attachment_id" <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->banner_id . '"' : ''; ?> />
                         </div>
                         <div class="btn">
                             <input type="button" value="Upload/Change" class="button-primary" id="banner" />
@@ -33,7 +39,7 @@ if (!empty($data)) {
                     <h3>In-Article Ad: </h3>
                     <div class="image">
                         <img width="300" src="<?php echo (!empty($ad_data)) ? wp_get_attachment_url($ad_data->in_story_id) : ''; ?>" class="image" style="margin-top:10px;" />
-                        <input type="hidden" name="upload_adv_in_story" class="wp_attachment_id" value="<?php echo (!empty($ad_data)) ?  $ad_data->in_story_id : ''; ?>" />
+                        <input type="hidden" name="upload_adv_in_story" class="wp_attachment_id" <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->in_story_id . '"' : ''; ?> />
                     </div>
                     <div class="btn">
                         <input type="button" value="Upload/Change" class="button-primary" id="in_story" />
@@ -47,7 +53,7 @@ if (!empty($data)) {
                     <h3>Footer Ad: </h3>
                     <div class="image">
                         <img width="300" src="<?php echo (!empty($ad_data)) ? wp_get_attachment_url($ad_data->footer_id) : ''; ?>" class="image" style="margin-top:10px;" />
-                        <input type="hidden" name="upload_adv_footer" class="wp_attachment_id" value="<?php echo (!empty($ad_data)) ?  $ad_data->footer_id : ''; ?>" />
+                        <input type="hidden" name="upload_adv_footer" class="wp_attachment_id" <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->footer_id . '"' : ''; ?> />
                     </div>
                     <div class="btn">
                         <input type="button" value="Upload/Change" class="button-primary" id="footer" />
@@ -61,7 +67,7 @@ if (!empty($data)) {
                     <h3>Sidebar Ad 1: </h3>
                     <div class="image">
                         <img width="300" src="<?php echo (!empty($ad_data)) ? wp_get_attachment_url($ad_data->sidebar_one_id) : ''; ?>" class="image" style="margin-top:10px;" />
-                        <input type="hidden" name="upload_adv_sidebar_one" class="wp_attachment_id" value="<?php echo (!empty($ad_data)) ?  $ad_data->sidebar_one_id : ''; ?>" />
+                        <input type="hidden" name="upload_adv_sidebar_one" class="wp_attachment_id" <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_one_id . '"' : ''; ?> />
                     </div>
                     <div class="btn">
                         <input type="button" value="Upload/Change" class="button-primary" id="sidebar_one" />
@@ -75,7 +81,7 @@ if (!empty($data)) {
                     <h3>Sidebar Ad 2: </h3>
                     <div class="image">
                         <img width="300" src="<?php echo (!empty($ad_data)) ? wp_get_attachment_url($ad_data->sidebar_two_id) : ''; ?>" class="image" style="margin-top:10px;" />
-                        <input type="hidden" name="upload_adv_sidebar_two" class="wp_attachment_id" value="<?php echo (!empty($ad_data)) ?  $ad_data->sidebar_two_id : ''; ?>" />
+                        <input type="hidden" name="upload_adv_sidebar_two" class="wp_attachment_id" <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_two_id . '"' : ''; ?> />
                     </div>
                     <div class="btn">
                         <input type="button" value="Upload/Change" class="button-primary" id="sidebar_two" />
@@ -87,7 +93,7 @@ if (!empty($data)) {
                 </div>
                 <div class="form-fields-not-visible">
                     <input type="hidden" name="action" value="<?php echo (!empty($ad_data)) ? 'edit_advert' : 'new_advert'; ?>" />
-                    <input type="hidden" name="advertiser_id" value="<?php echo $user->ID; ?>" />
+                    <input type="hidden" name="advertiser_id" value="<?php echo $user_id; ?>" />
                     <?php $new_advertisement_nonce = wp_create_nonce('new_advertisement_nonce');  ?>
                     <input type="hidden" name="new_advert_nonce" value="<?php echo $new_advertisement_nonce; ?>" />
                 </div>
@@ -101,15 +107,23 @@ if (!empty($data)) {
                         <div class="form-fields company_logo">
                             <div class="image">
                                 <img width="300" src="<?php echo (!empty($company_data->company_logo)) ? wp_get_attachment_url($company_data->company_logo) : ''; ?>" class="image" style="margin-top:10px;" />
-                                <input type="hidden" name="company_logo" class="wp_attachment_id" value="<?php echo (!empty($company_data->company_logo)) ?  $ad_data->company_logo : ''; ?>" />
+                                <input type="hidden" name="company_logo" class="wp_attachment_id" <?php echo (isset($company_data->company_logo)) ?  'value="' . $company_data->company_logo . '"' : ''; ?> />
                             </div>
                             <div class="btn">
                                 <input type="button" value="Upload Logo" class="button-primary" id="company_logo" />
                                 <p class="warning">( Recommended Dimension: 800w X 600h)</p>
                             </div>
                         </div>
-                        <div class="form-fields"><input name="company_name" type="text" <?php echo (!empty($company_data)) ? 'value=' . $company_data->company_name : ''; ?> placeholder="Company name as it will appear in the Experts Directory"></div>
-                        <div class="form-fields"><input name="company_url" type="text" <?php echo (!empty($company_data)) ? 'value=' . $company_data->company_url : ''; ?> placeholder="Company website URL"></div>
+                        <div class="form-fields"><input name="company_name" type="text" <?php echo (!empty($company_data)) ? 'value="' . $company_data->company_name . '"' : ''; ?> placeholder="Company name as it will appear in the Experts Directory"></div>
+                        <div class="form-fields">
+                            <select name="company_category">
+                                <option value="0">Select Expert Category</option>
+                                <?php foreach ($exp_cats as $ec) : ?>
+                                    <option value="<?php echo $ec; ?>" <?php echo (isset($company_data->company_category) ? ($company_data->company_category == $ec  ? 'selected' : '') : '');  ?>><?php echo $ec; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-fields"><input name="company_url" type="text" <?php echo (!empty($company_data)) ? 'value="' . $company_data->company_url . '"' : ''; ?> placeholder="Company website URL"></div>
                         <div class="form-fields"><textarea name="company_description" placeholder="Please limit to one paragraph"><?php echo (!empty($company_data)) ? $company_data->company_description : ''; ?></textarea></div>
                     </div>
                     <?php if (!empty($event_data)) : $i = 0; ?>
@@ -120,6 +134,9 @@ if (!empty($data)) {
                                 <div class="form-fields"><input name="event_title[]" type="text" placeholder="Title of Event" value="<?php echo $eve->event_title; ?>"></div>
                                 <div class="form-fields"><textarea name="event_description[]" placeholder="Event Description" spellcheck="false"><?php echo $eve->event_description; ?></textarea></div>
                             </div>
+                            <div class="form-adver remove-event">
+                                <div class="form-fields"><a href="javascript:void(0);" class="remove-event"><span class="minus"></span><?php echo ($i == 0) ? 'Clear the above Event' : 'Remove the above Event'; ?></a></div>
+                            </div>
                         <?php $i++;
                         endforeach;
                     else : ?>
@@ -128,6 +145,9 @@ if (!empty($data)) {
                             <div class="form-fields"><input name="event_date[]" type="date" placeholder="Date of Event"></div>
                             <div class="form-fields"><input name="event_title[]" type="text" placeholder="Title of Event"></div>
                             <div class="form-fields"><textarea name="event_description[]" placeholder="Event Description" spellcheck="false"></textarea></div>
+                        </div>
+                        <div class="form-adver remove-event">
+                            <div class="form-fields"><a href="javascript:void(0);" class="remove-event"><span class="minus"></span>Clear the above Event</a></div>
                         </div>
                     <?php endif; ?>
                     <div class="form-adver">

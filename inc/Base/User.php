@@ -62,6 +62,8 @@ class User extends BaseController
             remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
             remove_meta_box('dashboard_right_now', 'dashboard', 'normal');
             remove_meta_box('dashboard_activity', 'dashboard', 'normal');
+            remove_meta_box('wpe_dify_news_feed', 'dashboard', 'normal');
+
         endif;
     }
     public function add_dashboard_widget()

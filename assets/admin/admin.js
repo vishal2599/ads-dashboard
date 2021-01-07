@@ -11,8 +11,11 @@
         $('.adv-create-ad #company_logo').on('click', open_custom_media_window);
         $('#adv-dashboard').DataTable();
         $('.form-adver .add-more').on('click', function(){
-            $('<div class="form-adver upcoming-events"><div class="form-fields"><input name="event_date[]" type="date" placeholder="Date of Event"></div><div class="form-fields"><input name="event_title[]" type="text" placeholder="Title of Event"></div><div class="form-fields"><textarea name="event_description[]" placeholder="Event Description" spellcheck="false"></textarea></div></div>').insertAfter('.form-adver.upcoming-events:last');
+            $('<div class="form-adver upcoming-events"><div class="form-fields"><input name="event_date[]" type="date" placeholder="Date of Event"></div><div class="form-fields"><input name="event_title[]" type="text" placeholder="Title of Event"></div><div class="form-fields"><textarea name="event_description[]" placeholder="Event Description" spellcheck="false"></textarea></div></div><div class="form-adver"><div class="form-fields"><a href="javascript:void(0);" class="remove-event"><span class="minus"></span>Remove the above Event</a></div></div>').insertAfter('.form-adver.remove-event:last');
+            removeEventFunction();
         });
+
+        removeEventFunction();
 
         function open_custom_media_window() {
             var container = $(this).attr('id');
@@ -41,6 +44,19 @@
 
             this.window.open();
             return false;
+        }
+
+        function removeEventFunction(){
+            $('.form-adver .remove-event').on('click', function(){
+                if( $('.form-adver.upcoming-events').length > 1 ){
+                    $(this).parent().parent().prev().remove();
+                    $(this).parent().parent().remove();
+                } else {
+                    $('.form-adver.upcoming-events input[type="text"]').val('');
+                    $('.form-adver.upcoming-events input[type="date"]').val('');
+                    $('.form-adver.upcoming-events textarea').val('');
+                }
+            });
         }
     });
 })(jQuery);

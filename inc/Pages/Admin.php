@@ -52,13 +52,17 @@ class Admin extends BaseController
         endif;
         $result = $wpdb->get_results($sql);
 
-        if (in_array('advertiser', (array) $user->roles)) :
+        if (in_array('advertiser', (array) $user->roles) ) :
             require_once $this->plugin_path . 'templates/createAd.php';
-        elseif (in_array('administrator', (array) $user->roles) && isset($_GET['ad_type']) && ($_GET['ad_type'] == 'new' || $_GET['ad_type'] == 'edit')) :
-            require_once $this->plugin_path . 'templates/editAdvert.php';
-        else :
-            require_once $this->plugin_path . 'templates/advDashboard.php';
-        endif;
+            elseif (in_array('administrator', (array) $user->roles)):
+                if( isset($_GET['ad_type']) && ($_GET['ad_type'] == 'new' || $_GET['ad_type'] == 'edit') ){
+                    require_once $this->plugin_path . 'templates/editAdvert.php';
+                } elseif( isset($_GET['ad_type']) && $_GET['ad_type'] == 'edit_data' ){
+                    require_once $this->plugin_path . 'templates/createAd.php';
+                } else {
+                    require_once $this->plugin_path . 'templates/advDashboard.php';
+                }
+            endif;
     }
 
     public function expertsDirectory()

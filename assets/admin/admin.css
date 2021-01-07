@@ -120,7 +120,7 @@ body.role-advertiser form#your-profile .form-table:nth-child(13) {
     height: 150px
 }
 
-.adv-create-ad .advertise-form .form-adver .form-fields .add-more {
+.adv-create-ad .advertise-form .form-adver .form-fields .add-more,.adv-create-ad .advertise-form .form-adver .form-fields .remove-event {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -136,7 +136,7 @@ body.role-advertiser form#your-profile .form-table:nth-child(13) {
     color: #000;
 }
 
-.adv-create-ad .advertise-form .form-adver .form-fields .add-more .plus {
+.adv-create-ad .advertise-form .form-adver .form-fields .add-more .plus,.adv-create-ad .advertise-form .form-adver .form-fields .remove-event .minus {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -179,4 +179,18 @@ body.role-advertiser form#your-profile .form-table:nth-child(13) {
 }
 .adv-create-ad .warning{
     color: red;
+}
+.adv-create-ad .advertise-form .form-adver .form-fields .remove-event .minus{
+    border: 1px solid red;
+}
+.adv-create-ad .advertise-form .form-adver .form-fields .remove-event .minus:after{
+    background: red;
+    content: '';
+    height: 10px;
+    left: 50%;
+    margin-left: -1px;
+    position: absolute;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    width: 2px
 }

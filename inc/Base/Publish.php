@@ -40,27 +40,19 @@ class Publish extends BaseController
             $company_data = [
                 'company_logo' => $_POST['company_logo'],
                 'company_name' => $_POST['company_name'],
+                'company_category' => $_POST['company_category'],
                 'company_url' => $_POST['company_url'],
                 'company_description' => $_POST['company_description']
             ];
             $event_data = [];
             $event_date = $_POST['event_date'];
-            $i = 0;
-            foreach ($event_date as $ev) {
-                $event_data[$i]['event_date'] = $ev;
-                $i++;
-            }
             $event_title = $_POST['event_title'];
-            $j = 0;
-            foreach ($event_title as $et) {
-                $event_data[$j]['event_title'] = $et;
-                $j++;
-            }
             $event_description = $_POST['event_description'];
-            $k = 0;
-            foreach ($event_description as $ed) {
-                $event_data[$k]['event_description'] = $ed;
-                $k++;
+            
+            for ($i=0; $i < count($event_date); $i++) {
+                $event_data[$i]['event_date'] = $event_date[$i];
+                $event_data[$i]['event_title'] = $event_title[$i];
+                $event_data[$i]['event_description'] = $event_description[$i];
             }
             $sql = 'SELECT user_id FROM ' . $wpdb->prefix . 'advertisements_dash WHERE user_id=' . $user->ID;
             $ids = $wpdb->get_row($sql);
@@ -95,7 +87,10 @@ class Publish extends BaseController
         if (isset($_POST['new_advert_nonce']) && wp_verify_nonce($_POST['new_advert_nonce'], 'new_advertisement_nonce')) {
 
             global $wpdb;
-            $user = wp_get_current_user();
+            // $user = wp_get_current_user();
+            $user_id = $_POST['advertiser_id'];
+            // echo '<pre>';
+            // print_r($_POST); die;
             $ad_data = [
                 'banner_id' => $_POST['upload_adv_banner'],
                 'in_story_id' => $_POST['upload_adv_in_story'],
@@ -111,29 +106,22 @@ class Publish extends BaseController
 
             $company_data = [
                 'company_logo' => $_POST['company_logo'],
-                'company_name' => $_POST['company_name'],
+                'company_name' => sanitize_text_field( $_POST['company_name'] ),
+                'company_category' => $_POST['company_category'],
                 'company_url' => $_POST['company_url'],
                 'company_description' => $_POST['company_description']
             ];
             $event_data = [];
             $event_date = $_POST['event_date'];
-            $i = 0;
-            foreach ($event_date as $ev) {
-                $event_data[$i]['event_date'] = $ev;
-                $i++;
-            }
             $event_title = $_POST['event_title'];
-            $j = 0;
-            foreach ($event_title as $et) {
-                $event_data[$j]['event_title'] = $et;
-                $j++;
-            }
             $event_description = $_POST['event_description'];
-            $k = 0;
-            foreach ($event_description as $ed) {
-                $event_data[$k]['event_description'] = $ed;
-                $k++;
+            
+            for ($i=0; $i < count($event_date); $i++) {
+                $event_data[$i]['event_date'] = $event_date[$i];
+                $event_data[$i]['event_title'] = $event_title[$i];
+                $event_data[$i]['event_description'] = $event_description[$i];
             }
+            
             $wpdb->update(
                 $wpdb->prefix . 'advertisements_dash',
                 [
@@ -142,7 +130,7 @@ class Publish extends BaseController
                     'event_data' => json_encode($event_data)
                 ],
                 [
-                    'user_id' => $user->ID
+                    'user_id' => $user_id
                 ]
             );
 
