@@ -22,7 +22,8 @@ class Publish extends BaseController
     {
         if (isset($_POST['new_advert_nonce']) && wp_verify_nonce($_POST['new_advert_nonce'], 'new_advertisement_nonce')) {
             global $wpdb;
-            $user = wp_get_current_user();
+            // $user = wp_get_current_user();
+            $user_id = $_POST['advertiser_id'];
 
             $ad_data = [
                 'banner_id' => $_POST['upload_adv_banner'],
@@ -36,11 +37,16 @@ class Publish extends BaseController
                 'sidebar_one_url' => $_POST['sidebar_one_url'],
                 'sidebar_two_url' => $_POST['sidebar_two_url'],
             ];
+            $categories = $_POST['company_category'];
+            $cats = [];
+            foreach( $categories as $cat ){
+                $cats[] = $cat;
+            }
 
             $company_data = [
                 'company_logo' => $_POST['company_logo'],
                 'company_name' => $_POST['company_name'],
-                'company_category' => $_POST['company_category'],
+                'company_category' =>  $cats,
                 'company_url' => $_POST['company_url'],
                 'company_description' => $_POST['company_description']
             ];
@@ -54,7 +60,7 @@ class Publish extends BaseController
                 $event_data[$i]['event_title'] = $event_title[$i];
                 $event_data[$i]['event_description'] = $event_description[$i];
             }
-            $sql = 'SELECT user_id FROM ' . $wpdb->prefix . 'advertisements_dash WHERE user_id=' . $user->ID;
+            $sql = 'SELECT user_id FROM ' . $wpdb->prefix . 'advertisements_dash WHERE user_id=' . $user_id;
             $ids = $wpdb->get_row($sql);
             if (!empty($ids)) {
                 $wpdb->update(
@@ -65,13 +71,13 @@ class Publish extends BaseController
                         'event_data' => json_encode($event_data)
                     ],
                     [
-                        'user_id' => $user->ID
+                        'user_id' => $user_id
                     ]
                 );
             } else {
                 $wpdb->insert($wpdb->prefix . 'advertisements_dash', array(
                     'ad_data' => json_encode($ad_data),
-                    'user_id' => $user->ID,
+                    'user_id' => $user_id,
                     'company_data' =>  json_encode($company_data),
                     'event_data' => json_encode($event_data)
                 ));
@@ -103,11 +109,16 @@ class Publish extends BaseController
                 'sidebar_one_url' => $_POST['sidebar_one_url'],
                 'sidebar_two_url' => $_POST['sidebar_two_url'],
             ];
+            $categories = $_POST['company_category'];
+            $cats = [];
+            foreach( $categories as $cat ){
+                $cats[] = $cat;
+            }
 
             $company_data = [
                 'company_logo' => $_POST['company_logo'],
                 'company_name' => sanitize_text_field( $_POST['company_name'] ),
-                'company_category' => $_POST['company_category'],
+                'company_category' => $cats,
                 'company_url' => $_POST['company_url'],
                 'company_description' => $_POST['company_description']
             ];

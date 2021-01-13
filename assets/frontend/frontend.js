@@ -17,10 +17,10 @@
             'cat_id': category,
             dataType: 'json'
         };
-        console.log(data);
-
+        
         $.post(advAjax.url, data, function (response) {
             var data = JSON.parse(response);
+            // console.log(data);
             advDashboardAdGen(data);
         });
     });

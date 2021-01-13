@@ -31,7 +31,7 @@ $exp_cats = $wpdb->get_col($sql2);
                             <p class="warning">( Minimum Dimensions: 1880w X 300h )</p>
                         </div>
                         <div class="url">
-                            <input type='text' placeholder="Affiliate URL" name='banner_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->banner_url . '"' : ''; ?> required>
+                            <input type='text' placeholder="Affiliate URL" name='banner_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->banner_url . '"' : ''; ?>>
                         </div>
                     </div>
                 <?php endif; ?>
@@ -46,7 +46,7 @@ $exp_cats = $wpdb->get_col($sql2);
                         <p class="warning">( Minimum Dimensions: 1880w X 300h )</p>
                     </div>
                     <div class="url">
-                        <input type='text' placeholder="Affiliate URL" name='in_story_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->in_story_url . '"' : ''; ?> required>
+                        <input type='text' placeholder="Affiliate URL" name='in_story_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->in_story_url . '"' : ''; ?>>
                     </div>
                 </div>
                 <div class="form-fields footer">
@@ -60,7 +60,7 @@ $exp_cats = $wpdb->get_col($sql2);
                         <p class="warning">( Minimum Dimensions: 1880w X 300h )</p>
                     </div>
                     <div class="url">
-                        <input type='text' placeholder="Affiliate URL" name='footer_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->footer_url . '"' : ''; ?> required>
+                        <input type='text' placeholder="Affiliate URL" name='footer_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->footer_url . '"' : ''; ?>>
                     </div>
                 </div>
                 <div class="form-fields sidebar_one">
@@ -74,7 +74,7 @@ $exp_cats = $wpdb->get_col($sql2);
                         <p class="warning">( Minimum Dimensions: 300w X 300h )</p>
                     </div>
                     <div class="url">
-                        <input type='text' placeholder="Affiliate URL" name='sidebar_one_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_one_url . '"' : ''; ?> required>
+                        <input type='text' placeholder="Affiliate URL" name='sidebar_one_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_one_url . '"' : ''; ?>>
                     </div>
                 </div>
                 <div class="form-fields sidebar_two">
@@ -88,7 +88,7 @@ $exp_cats = $wpdb->get_col($sql2);
                         <p class="warning">( Minimum Dimensions: 300w X 300h )</p>
                     </div>
                     <div class="url">
-                        <input type='text' placeholder="Affiliate URL" name='sidebar_two_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_two_url . '"' : ''; ?> required>
+                        <input type='text' placeholder="Affiliate URL" name='sidebar_two_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_two_url . '"' : ''; ?>>
                     </div>
                 </div>
                 <div class="form-fields-not-visible">
@@ -115,13 +115,13 @@ $exp_cats = $wpdb->get_col($sql2);
                             </div>
                         </div>
                         <div class="form-fields"><input name="company_name" type="text" <?php echo (!empty($company_data)) ? 'value="' . $company_data->company_name . '"' : ''; ?> placeholder="Company name as it will appear in the Experts Directory"></div>
-                        <div class="form-fields">
-                            <select name="company_category">
-                                <option value="0">Select Expert Category</option>
-                                <?php foreach ($exp_cats as $ec) : ?>
-                                    <option value="<?php echo $ec; ?>" <?php echo (isset($company_data->company_category) ? ($company_data->company_category == $ec  ? 'selected' : '') : '');  ?>><?php echo $ec; ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                        <div class="form-fields company_category"  style="margin-bottom:2em;">
+                            <h4 style="margin:1em 0 0.5em 0;">Select Expert Categories</h4>
+                            <?php $i = 0; foreach ($exp_cats as $ec) : ?>
+                            <input type="checkbox" name="company_category[]"<?php echo (in_array($ec, $company_data->company_category) ?  ' checked' : '');  ?> value="<?php echo $ec; ?>">
+                            <label for="male"><?php echo $ec; ?></label><br>
+                            <?php $i++; endforeach; ?>
+                            <input type="hidden" name="company_category_count" value="">
                         </div>
                         <div class="form-fields"><input name="company_url" type="text" <?php echo (!empty($company_data)) ? 'value="' . $company_data->company_url . '"' : ''; ?> placeholder="Company website URL"></div>
                         <div class="form-fields"><textarea name="company_description" placeholder="Please limit to one paragraph"><?php echo (!empty($company_data)) ? $company_data->company_description : ''; ?></textarea></div>

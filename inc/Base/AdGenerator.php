@@ -65,28 +65,28 @@ class AdGenerator extends BaseController
                     $html[$ad_types[$i]] .= '<div class="container advDashboard ' . $ad_types[$i] . '"><a target="_blank" href="' . $url . '"><img src="' . $image . '"></a></div>';
                     break;
                 case 1:
-                    $rand = (count($ids) < 5 ) ? rand(0, count($ids) -1) : $i;
+                    $rand = rand(0, count($ids) -1);
                     $ad_data = json_decode($ids[$rand]->ad_data);
                     $image = wp_get_attachment_url($ad_data->in_story_id);
                     $url =  $ad_data->in_story_url;
                     $html[$ad_types[$i]] .= '<div class="container advDashboard ' . $ad_types[$i] . '"><a target="_blank" href="' . $url . '"><img src="' . $image . '"></a></div>';
                     break;
                 case 2:
-                    $rand = (count($ids) < 5 ) ? rand(0, count($ids) -1) : $i;
+                    $rand = rand(0, count($ids) -1);
                     $ad_data = json_decode($ids[$rand]->ad_data);
                     $image = wp_get_attachment_url($ad_data->sidebar_one_id);
                     $url =  $ad_data->sidebar_one_url;
                     $html[$ad_types[$i]] .= '<div class="container advDashboard ' . $ad_types[$i] . '"><a target="_blank" href="' . $url . '"><img src="' . $image . '"></a></div>';
                     break;
                 case 3:
-                    $rand = (count($ids) < 5 ) ? rand(0, count($ids) -1) : $i;
+                    $rand = rand(0, count($ids) -1);
                     $ad_data = json_decode($ids[$rand]->ad_data);
                     $image = wp_get_attachment_url($ad_data->sidebar_two_id);
                     $url =  $ad_data->sidebar_two_url;
                     $html[$ad_types[$i]] .= '<div class="container advDashboard ' . $ad_types[$i] . '"><a target="_blank" href="' . $url . '"><img src="' . $image . '"></a></div>';
                     break;
                 case 4:
-                    $rand = (count($ids) < 5 ) ? rand(0, count($ids) -1) : $i;
+                    $rand = rand(0, count($ids) -1);
                     $ad_data = json_decode($ids[$rand]->ad_data);
                     $image = wp_get_attachment_url($ad_data->footer_id);
                     $url =  $ad_data->footer_url;

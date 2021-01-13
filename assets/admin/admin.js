@@ -15,6 +15,11 @@
             removeEventFunction();
         });
 
+        // $('.form-fields.company_category input[type="radio"]').on('change', function(){
+        //     var count = $('.form-fields.company_category input[type="radio"]:checked').length;
+        //     $('.form-fields.company_category input[name="company_category_count"]').val(count);
+        // })
+
         removeEventFunction();
 
         function open_custom_media_window() {
