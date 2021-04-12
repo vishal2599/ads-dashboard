@@ -20,13 +20,14 @@ $exp_cats = $wpdb->get_col($sql2);
         <form class="adv-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" name='adv_dashboard_form' enctype='multipart/form-data'>
             <div class="advertise-add">
                 <?php if (isset($data->membership_type) && $data->membership_type != 'emerald') : ?>
-                    <div class="form-fields banner">
+                    <div class="form-fields banner" data-height="300" data-width="1880">
                         <h3>Banner Ad: </h3>
                         <div class="image">
                             <img width="300" src="<?php echo (!empty($ad_data)) ? wp_get_attachment_url($ad_data->banner_id) : ''; ?>" class="image" style="margin-top:10px;" />
                             <input type="hidden" name="upload_adv_banner" class="wp_attachment_id" <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->banner_id . '"' : ''; ?> />
                         </div>
                         <div class="btn">
+                            <p class="error"></p>
                             <input type="button" value="Upload/Change" class="button-primary" id="banner" />
                             <p class="warning">( Minimum Dimensions: 1880w X 300h )</p>
                         </div>
@@ -35,13 +36,14 @@ $exp_cats = $wpdb->get_col($sql2);
                         </div>
                     </div>
                 <?php endif; ?>
-                <div class="form-fields in_story">
+                <div class="form-fields in_story" data-height="300" data-width="1880">
                     <h3>In-Article Ad: </h3>
                     <div class="image">
                         <img width="300" src="<?php echo (!empty($ad_data)) ? wp_get_attachment_url($ad_data->in_story_id) : ''; ?>" class="image" style="margin-top:10px;" />
                         <input type="hidden" name="upload_adv_in_story" class="wp_attachment_id" <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->in_story_id . '"' : ''; ?> />
                     </div>
                     <div class="btn">
+                        <p class="error"></p>
                         <input type="button" value="Upload/Change" class="button-primary" id="in_story" />
                         <p class="warning">( Minimum Dimensions: 1880w X 300h )</p>
                     </div>
@@ -49,13 +51,14 @@ $exp_cats = $wpdb->get_col($sql2);
                         <input type='text' placeholder="Affiliate URL" name='in_story_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->in_story_url . '"' : ''; ?>>
                     </div>
                 </div>
-                <div class="form-fields footer">
+                <div class="form-fields footer" data-height="300" data-width="1880">
                     <h3>Footer Ad: </h3>
                     <div class="image">
                         <img width="300" src="<?php echo (!empty($ad_data)) ? wp_get_attachment_url($ad_data->footer_id) : ''; ?>" class="image" style="margin-top:10px;" />
                         <input type="hidden" name="upload_adv_footer" class="wp_attachment_id" <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->footer_id . '"' : ''; ?> />
                     </div>
                     <div class="btn">
+                        <p class="error"></p>
                         <input type="button" value="Upload/Change" class="button-primary" id="footer" />
                         <p class="warning">( Minimum Dimensions: 1880w X 300h )</p>
                     </div>
@@ -63,13 +66,14 @@ $exp_cats = $wpdb->get_col($sql2);
                         <input type='text' placeholder="Affiliate URL" name='footer_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->footer_url . '"' : ''; ?>>
                     </div>
                 </div>
-                <div class="form-fields sidebar_one">
+                <div class="form-fields sidebar_one" data-height="300" data-width="300">
                     <h3>Sidebar Ad 1: </h3>
                     <div class="image">
                         <img width="300" src="<?php echo (!empty($ad_data)) ? wp_get_attachment_url($ad_data->sidebar_one_id) : ''; ?>" class="image" style="margin-top:10px;" />
                         <input type="hidden" name="upload_adv_sidebar_one" class="wp_attachment_id" <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_one_id . '"' : ''; ?> />
                     </div>
                     <div class="btn">
+                        <p class="error"></p>
                         <input type="button" value="Upload/Change" class="button-primary" id="sidebar_one" />
                         <p class="warning">( Minimum Dimensions: 300w X 300h )</p>
                     </div>
@@ -77,18 +81,34 @@ $exp_cats = $wpdb->get_col($sql2);
                         <input type='text' placeholder="Affiliate URL" name='sidebar_one_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_one_url . '"' : ''; ?>>
                     </div>
                 </div>
-                <div class="form-fields sidebar_two">
+                <div class="form-fields sidebar_two" data-height="300" data-width="300">
                     <h3>Sidebar Ad 2: </h3>
                     <div class="image">
                         <img width="300" src="<?php echo (!empty($ad_data)) ? wp_get_attachment_url($ad_data->sidebar_two_id) : ''; ?>" class="image" style="margin-top:10px;" />
                         <input type="hidden" name="upload_adv_sidebar_two" class="wp_attachment_id" <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_two_id . '"' : ''; ?> />
                     </div>
                     <div class="btn">
+                        <p class="error"></p>
                         <input type="button" value="Upload/Change" class="button-primary" id="sidebar_two" />
                         <p class="warning">( Minimum Dimensions: 300w X 300h )</p>
                     </div>
                     <div class="url">
                         <input type='text' placeholder="Affiliate URL" name='sidebar_two_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_two_url . '"' : ''; ?>>
+                    </div>
+                </div>
+                <div class="form-fields newsletter" data-height="120" data-width="600">
+                    <h3>Newsletter Ad: </h3>
+                    <div class="image">
+                        <img width="300" src="<?php echo (!empty($ad_data)) ? wp_get_attachment_url($ad_data->newsletter_id) : ''; ?>" class="image" style="margin-top:10px;" />
+                        <input type="hidden" name="upload_adv_newsletter" class="wp_attachment_id" <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->newsletter_id . '"' : ''; ?> />
+                    </div>
+                    <div class="btn">
+                        <p class="error"></p>
+                        <input type="button" value="Upload/Change" class="button-primary" id="newsletter" />
+                        <p class="warning">( Minimum Dimensions: 600w X 120h )</p>
+                    </div>
+                    <div class="url">
+                        <input type='text' placeholder="Affiliate URL" name='newsletter_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->newsletter_url . '"' : ''; ?>>
                     </div>
                 </div>
                 <div class="form-fields-not-visible">
@@ -104,23 +124,26 @@ $exp_cats = $wpdb->get_col($sql2);
                     <h3>Please add the following information for the advertiser to include:</h3>
                     <div class="form-adver">
                         <h4>Company Profile:</h4>
-                        <div class="form-fields company_logo">
+                        <div class="form-fields company_logo" data-height="200" data-width="300">
                             <div class="image">
                                 <img width="300" src="<?php echo (!empty($company_data->company_logo)) ? wp_get_attachment_url($company_data->company_logo) : ''; ?>" class="image" style="margin-top:10px;" />
                                 <input type="hidden" name="company_logo" class="wp_attachment_id" <?php echo (isset($company_data->company_logo)) ?  'value="' . $company_data->company_logo . '"' : ''; ?> />
                             </div>
                             <div class="btn">
+                                <p class="error"></p>
                                 <input type="button" value="Upload Logo" class="button-primary" id="company_logo" />
-                                <p class="warning">( Recommended Dimension: 800w X 600h)</p>
+                                <p class="warning">( Recommended Dimension: 300w X 200h)</p>
                             </div>
                         </div>
                         <div class="form-fields"><input name="company_name" type="text" <?php echo (!empty($company_data)) ? 'value="' . $company_data->company_name . '"' : ''; ?> placeholder="Company name as it will appear in the Experts Directory"></div>
-                        <div class="form-fields company_category"  style="margin-bottom:2em;">
+                        <div class="form-fields company_category" style="margin-bottom:2em;">
                             <h4 style="margin:1em 0 0.5em 0;">Select Expert Categories</h4>
-                            <?php $i = 0; foreach ($exp_cats as $ec) : ?>
-                            <input type="checkbox" name="company_category[]"<?php echo (in_array($ec, $company_data->company_category) ?  ' checked' : '');  ?> value="<?php echo $ec; ?>">
-                            <label for="male"><?php echo $ec; ?></label><br>
-                            <?php $i++; endforeach; ?>
+                            <?php $i = 0;
+                            foreach ($exp_cats as $ec) : ?>
+                                <input type="checkbox" name="company_category[]" <?php echo (in_array($ec, $company_data->company_category) ?  ' checked' : '');  ?> value="<?php echo $ec; ?>">
+                                <label for="male"><?php echo $ec; ?></label><br>
+                            <?php $i++;
+                            endforeach; ?>
                             <input type="hidden" name="company_category_count" value="">
                         </div>
                         <div class="form-fields"><input name="company_url" type="text" <?php echo (!empty($company_data)) ? 'value="' . $company_data->company_url . '"' : ''; ?> placeholder="Company website URL"></div>
@@ -130,8 +153,12 @@ $exp_cats = $wpdb->get_col($sql2);
                         <?php foreach ($event_data as $eve) : ?>
                             <div class="form-adver upcoming-events">
                                 <?php echo ($i == 0) ? '<h4>Upcoming Events:</h4>' : ''; ?>
-                                <div class="form-fields"><input name="event_date[]" type="date" placeholder="Date of Event" value="<?php echo $eve->event_date; ?>"></div>
+                                <h4 class="label">Start Date: </h4>
+                                <div class="form-fields"><input name="event_start_date[]" type="datetime-local" value="<?php echo  $eve->event_start_date; ?>"></div>
+                                <h4 class="label">End Date: </h4>
+                                <div class="form-fields"><input name="event_end_date[]" type="datetime-local" value="<?php echo $eve->event_end_date; ?>"></div>
                                 <div class="form-fields"><input name="event_title[]" type="text" placeholder="Title of Event" value="<?php echo $eve->event_title; ?>"></div>
+                                <div class="form-fields"><input name="event_url[]" type="text" placeholder="Event URL" value="<?php echo $eve->event_url; ?>"></div>
                                 <div class="form-fields"><textarea name="event_description[]" placeholder="Event Description" spellcheck="false"><?php echo $eve->event_description; ?></textarea></div>
                             </div>
                             <div class="form-adver remove-event">
@@ -142,7 +169,10 @@ $exp_cats = $wpdb->get_col($sql2);
                     else : ?>
                         <div class="form-adver upcoming-events">
                             <h4>Upcoming Events:</h4>
-                            <div class="form-fields"><input name="event_date[]" type="date" placeholder="Date of Event"></div>
+                            <h4 class="label">Start Date: </h4>
+                            <div class="form-fields"><input name="event_start_date[]" type="datetime-local" value="<?php echo  $eve->event_start_date; ?>"></div>
+                            <h4 class="label">End Date: </h4>
+                            <div class="form-fields"><input name="event_end_date[]" type="datetime-local" value="<?php echo $eve->event_end_date; ?>"></div>
                             <div class="form-fields"><input name="event_title[]" type="text" placeholder="Title of Event"></div>
                             <div class="form-fields"><textarea name="event_description[]" placeholder="Event Description" spellcheck="false"></textarea></div>
                         </div>

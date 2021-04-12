@@ -17,11 +17,12 @@ class Enqueue extends BaseController
 
     public function adminEnqueue()
     {
-        wp_enqueue_style('alecaddd-style', $this->plugin_url . 'assets/admin/admin.css');
-        wp_enqueue_script('alecaddd-script', $this->plugin_url . 'assets/admin/admin.js');
+        wp_enqueue_style('advbackend-style', $this->plugin_url . 'assets/admin/admin.css');
+        wp_enqueue_script('advbackend-script', $this->plugin_url . 'assets/admin/admin.js');
         wp_enqueue_media();
         wp_enqueue_style('dataTable-style', '//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css');
         wp_enqueue_script('dataTable-js', '//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js');
+        wp_localize_script('advbackend-script', 'advAjax', ['url' => '/wp-admin/admin-ajax.php', 'nonce' => wp_create_nonce('advDashboardCreate')]);
     }
 
     public function frontendEnqueue()

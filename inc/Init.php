@@ -22,7 +22,8 @@ final class Init
             Base\SettingsLinks::class,
             Base\Publish::class,
             Base\AdGenerator::class,
-            Base\User::class
+            Base\User::class,
+            Base\MailchimpNewsletter::class
         ];
     }
 

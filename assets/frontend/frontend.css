@@ -8,13 +8,28 @@
     max-width: 100%;
     padding: 0;
 }
+
+.container.advDashboard.sidebar_one,
+.container.advDashboard.sidebar_two {
+	margin: 12px 0 10px 0;
+}
+
+
 .container.advDashboard.banner img,
 .container.advDashboard.sidebar_one img,
 .container.advDashboard.sidebar_two img,
-.container.advDashboard.in_story img,
-.container.advDashboard.footer img {
+.container.advDashboard.in_story img, {
     max-width: 100%;
+    width: 100%;
 }
+
+
+.container.advDashboard.footer img {
+	max-width: 80%;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
 .captioned-image-container .image-link img {
     max-width: 100% !important;
     max-height: none !important;
