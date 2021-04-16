@@ -70,20 +70,20 @@ body.role-advertiser form#your-profile .form-table:nth-child(13) {
 .adv-create-ad .adv-form {
     display: -webkit-box;
     display: -ms-flexbox;
-    display: flex
+    display: flex;
 }
 
 .adv-create-ad .advertise-add {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 25%;
     flex: 0 0 25%;
-    width: 25%
+    width: 25%;
 }
 
 .adv-form.mailchimp-newsletter .advertise-add{
     -ms-flex: 0 0 40%;
     flex: 0 0 40%;
-    width: 40%
+    width: 40%;
 }
 
 .adv-create-ad .advertise-form {
@@ -95,28 +95,28 @@ body.role-advertiser form#your-profile .form-table:nth-child(13) {
     flex-grow: 1;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
-    justify-content: center
+    justify-content: center;
 }
 
 .adv-create-ad .advertise-form .center-form {
-    width: 520px
+    width: 520px;
 }
 
 .adv-create-ad .advertise-form .form-adver {
-    margin-top: 30px
+    margin-top: 30px;
 }
 
 .adv-create-ad .advertise-form .form-adver h4 {
     font-size: 20px;
     font-weight: 700;
-    margin-top: 0
+    margin-top: 0;
 }
 .adv-create-ad .advertise-form .form-adver h4.label {
     margin-bottom: 10px;
     margin-top: 10px;
 }
 .adv-create-ad .advertise-form .form-adver .form-fields {
-    margin-top: 5px
+    margin-top: 5px;
 }
 
 .adv-create-ad .form-adver .form-fields input[type="text"],
@@ -125,8 +125,9 @@ body.role-advertiser form#your-profile .form-table:nth-child(13) {
     width: 400px;
 }
 
-.adv-create-ad .form-adver .form-fields textarea {
-    height: 150px
+.adv-create-ad .form-fields textarea {
+    height: 150px;
+    width: 400px;
 }
 
 .adv-create-ad .advertise-form .form-adver .form-fields .add-more,.adv-create-ad .advertise-form .form-adver .form-fields .remove-event, .form-adver .add-more-post, .form-adver .remove-above-post {
@@ -162,7 +163,7 @@ body.role-advertiser form#your-profile .form-table:nth-child(13) {
     line-height: 1;
     margin-right: 10px;
     position: relative;
-    width: 18px
+    width: 18px;
 }
 
 .adv-create-ad .advertise-form .form-adver .form-fields .add-more .plus:before, .form-adver .add-more-post .plus:before {
@@ -172,7 +173,7 @@ body.role-advertiser form#your-profile .form-table:nth-child(13) {
     left: 50%;
     margin-left: -1px;
     position: absolute;
-    width: 2px
+    width: 2px;
 }
 
 .adv-create-ad .advertise-form .form-adver .form-fields .add-more .plus:after, .form-adver .add-more-post .plus:after {
@@ -184,7 +185,7 @@ body.role-advertiser form#your-profile .form-table:nth-child(13) {
     position: absolute;
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
-    width: 2px
+    width: 2px;
 }
 .adv-create-ad .warning, .adv-create-ad .error{
     color: red;
@@ -201,10 +202,15 @@ body.role-advertiser form#your-profile .form-table:nth-child(13) {
     position: absolute;
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
-    width: 2px
+    width: 2px;
 }
 
 .mailchimp-newsletter .has-drafts{
     opacity: 0.6;
     pointer-events: none;
+}
+.adv_admin_edit .form-fields p.note{
+    font-size: 12px;
+    color: grey;
+    padding: 0;
 }

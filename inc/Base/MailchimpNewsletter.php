@@ -29,12 +29,18 @@ class MailchimpNewsletter extends BaseController
         }
 
         update_option('340_mailchimp_key', $_REQUEST['api_key']);
-        update_option('340_mailchimp_subject', $_REQUEST['subject']);
+        update_option('340_mailchimp_subject', str_replace('\\', '',  $_REQUEST['subject']));
+        update_option('340_mailchimp_newsletter_middle_ad', $_REQUEST['newsletter_middle_ad']);
+        update_option('340_mailchimp_newsletter_audience', $_REQUEST['newsletter_audience']);
+        update_option('340_mailchimp_closing_message_subscribers', json_encode( [$_REQUEST['closing_message_subscribers']] ));
+        update_option('340_mailchimp_closing_message_members', json_encode( [$_REQUEST['closing_message_members']] ));
         $articles = [];
-        for ($i = 0; $i < count($_REQUEST['article_title']); $i++) {
-            $articles[$i]['title'] = $_REQUEST['article_title'][$i];
-            $articles[$i]['url'] = $_REQUEST['article_url'][$i];
-            $articles[$i]['copy'] = $_REQUEST['article_copy'][$i];
+        if( $_REQUEST['article_title'] != ''){
+            for ($i = 0; $i < count($_REQUEST['article_title']); $i++) {
+                $articles[$i]['title'] = $_REQUEST['article_title'][$i];
+                $articles[$i]['url'] = $_REQUEST['article_url'][$i];
+                $articles[$i]['copy'] = $_REQUEST['article_copy'][$i];
+            }
         }
 
         update_option('340_mailchimp_articles', json_encode($articles));
@@ -51,16 +57,16 @@ class MailchimpNewsletter extends BaseController
         $MailChimp = new DrewMailChimp($apiKey);
 
         $newsletter_subject_line = get_option('340_mailchimp_subject');
-        $list_id = '4de84bee34';
+        $list_id = '94452e12bd';
 
         $segments = $MailChimp->get('/lists/' . $list_id . '/segments');
-        foreach ($segments['segments'] as $seg) {
-            $result = $MailChimp->post("campaigns", [
+        // foreach ($segments['segments'] as $seg) {
+            $MailChimp->post("campaigns", [
                 'type' => 'regular',
                 'recipients' => [
                     'list_id' => $list_id,
                     'segment_opts' => [
-                        'saved_segment_id' => $seg['id']
+                        'saved_segment_id' => (int)get_option('340_mailchimp_newsletter_audience')
                     ]
                 ],
                 'settings' => [
@@ -89,7 +95,7 @@ class MailchimpNewsletter extends BaseController
             ]);
             $draft_newsletters[] = $responseObj->id;
             // $result = $MailChimp->post('campaigns/' . $responseObj->id . '/actions/send');
-        }
+        // }
 
         update_option('340_mailchimp_drafts', json_encode($draft_newsletters));
         update_option('340_mailchimp_posts', json_encode($posts));
@@ -116,6 +122,7 @@ class MailchimpNewsletter extends BaseController
         update_option('340_mailchimp_drafts', json_encode([]));
         update_option('340_mailchimp_posts', json_encode([]));
         update_option('340_mailchimp_articles', json_encode([]));
+        update_option('340_mailchimp_newsletter_middle_ad', '0');
 
         $response = ['status' => 'success'];
         echo json_encode($response);
@@ -137,6 +144,8 @@ class MailchimpNewsletter extends BaseController
         update_option('340_mailchimp_drafts', json_encode([]));
         update_option('340_mailchimp_posts', json_encode([]));
         update_option('340_mailchimp_articles', json_encode([]));
+        update_option('340_mailchimp_newsletter_middle_ad', '0');
+
         $response = ['status' => 'success'];
         echo json_encode($response);
         die;
@@ -186,6 +195,13 @@ class MailchimpNewsletter extends BaseController
     {
         global $wpdb;
         $additional_posts = json_decode(get_option('340_mailchimp_articles'));
+        $audience = get_option('340_mailchimp_newsletter_audience');
+
+        if( $audience == "3355169" ){
+            $closing_message = str_replace('\\', '', json_decode(get_option('340_mailchimp_closing_message_members'))[0]);
+        } elseif( $audience == "3355165" ) {
+            $closing_message = str_replace('\\', '',json_decode(get_option('340_mailchimp_closing_message_subscribers'))[0]);
+        }
 
         $sql = 'SELECT ad_data, company_data FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 AND JSON_EXTRACT(ad_data,"$.newsletter_id") != "NULL" AND JSON_EXTRACT(ad_data, TRIM("$.newsletter_id")) != "" ORDER BY RAND() LIMIT 3';
         $ads = $wpdb->get_results($sql);
@@ -193,8 +209,18 @@ class MailchimpNewsletter extends BaseController
         $top_ad = json_decode($ads[0]->ad_data);
         $top_company = json_decode($ads[0]->company_data);
 
-        $middle_ad = json_decode($ads[1]->ad_data);
-        $middle_company = json_decode($ads[1]->company_data);
+        if( get_option('340_mailchimp_newsletter_middle_ad') == 0 ){
+            $middle_ad = json_decode($ads[1]->ad_data);
+            $middle_company = json_decode($ads[1]->company_data);
+        } else {
+            $selected_middle_ad = get_option('340_mailchimp_newsletter_middle_ad');
+            $sql_query = 'SELECT ad_data FROM ' . $wpdb->prefix . 'advertisements_dash WHERE id='.$selected_middle_ad;
+            $result = $wpdb->get_results($sql_query);
+
+            $middle_ad = json_decode($result[0]->ad_data);
+            $middle_company = json_decode($result[0]->company_data);
+        }
+
 
         $bottom_ad = json_decode($ads[2]->ad_data);
         $bottom_company = json_decode($ads[2]->company_data);
@@ -224,7 +250,7 @@ class MailchimpNewsletter extends BaseController
             $html .= '<table class="mcnDividerBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;table-layout: fixed !important;" width="100%" cellspacing="0" cellpadding="0" border="0"> <tbody class="mcnDividerBlockOuter"> <tr> <td class="mcnDividerBlockInner" style="min-width: 100%;padding: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <table class="mcnDividerContent" style="min-width: 100%;border-top: 2px solid #EAEAEA;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" width="100%" cellspacing="0" cellpadding="0" border="0"> <tbody> <tr> <td style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <span></span> </td></tr></tbody> </table><!-- <td class="mcnDividerBlockInner" style="padding: 18px;"><hr class="mcnDividerContent" style="border-bottom-color:none; border-left-color:none; border-right-color:none; border-bottom-width:0; border-left-width:0; border-right-width:0; margin-top:0; margin-right:0; margin-bottom:0; margin-left:0;"/>--> </td></tr></tbody> </table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <tbody class="mcnTextBlockOuter"> <tr> <td valign="top" class="mcnTextBlockInner" style="padding-top: 9px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"><!--[if mso]><table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;"><tr><![endif]--><!--[if mso]><td valign="top" width="600" style="width:600px;"><![endif]--> <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width: 100%;min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" width="100%" class="mcnTextContentContainer"> <tbody> <tr> <td valign="top" class="mcnTextContent" style="padding-top: 0;padding-right: 18px;padding-bottom: 9px;padding-left: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;word-break: break-word;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;text-align: left;"> <h1 class="null" style="display: block;margin: 0;padding: 0;color: #202020;font-family: Helvetica;font-size: 26px;font-style: normal;font-weight: bold;line-height: EO Ted S125%;letter-spacing: normal;text-align: left;"> <span style="font-size:22px"><strong>' . $additional_posts[1]->title . '</strong></span> </h1><br><p>' . $additional_posts[1]->copy . '</p></td></tr></tbody> </table><!--[if mso]></td><![endif]--><!--[if mso]></tr></table><![endif]--> </td></tr></tbody> </table>';
         }
 
-        $html .= '<table class="mcnDividerBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;table-layout: fixed !important;" width="100%" cellspacing="0" cellpadding="0" border="0"> <tbody class="mcnDividerBlockOuter"> <tr> <td class="mcnDividerBlockInner" style="min-width: 100%;padding: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <table class="mcnDividerContent" style="min-width: 100%;border-top: 2px solid #EAEAEA;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" width="100%" cellspacing="0" cellpadding="0" border="0"> <tbody> <tr> <td style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <span></span> </td></tr></tbody> </table><!-- <td class="mcnDividerBlockInner" style="padding: 18px;"><hr class="mcnDividerContent" style="border-bottom-color:none; border-left-color:none; border-right-color:none; border-bottom-width:0; border-left-width:0; border-right-width:0; margin-top:0; margin-right:0; margin-bottom:0; margin-left:0;"/>--> </td></tr></tbody> </table> <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"><!--[if gte mso 9]><table align="center" border="0" cellspacing="0" cellpadding="0" width="100%"><![endif]--> <tbody class="mcnBoxedTextBlockOuter"> <tr> <td valign="top" class="mcnBoxedTextBlockInner" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"><!--[if gte mso 9]><td align="center" valign="top" "><![endif]--> <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" class="mcnBoxedTextContentContainer"> <tbody> <tr> <td style="padding-top: 9px;padding-left: 18px;padding-bottom: 9px;padding-right: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <table border="0" cellspacing="0" class="mcnTextContentContainer" width="100%" style="min-width: 100% !important;border: 2px solid;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <tbody> <tr> <td valign="top" class="mcnTextContent" style="padding: 18px;font-family: Helvetica;font-size: 16px;font-weight: normal;text-align: left;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;word-break: break-word;color: #202020;line-height: 150%;"> <h1 style="display: block;margin: 0;padding: 0;color: #202020;font-family: Helvetica;font-size: 26px;font-style: normal;font-weight: bold;line-height: 125%;letter-spacing: normal;text-align: left;"> Help Us Grow! </h1> <br>340B Report is proud to be your indispensable source for news and information about the 340B program.&nbsp; We appreciate that you have made the investment in us and encourage you to pass the word to colleagues outside of your organization or company.&nbsp; The more subscribers we have, the more content and services we can provide to you.&nbsp; We have put together&nbsp;<a href="https://340breport.us7.list-manage.com/track/click?u=2987c9a3eb65ae47cba9998c7&amp;id=f17713dd5d&amp;e=96a680e3e8" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #007C89;font-weight: normal;text-decoration: underline;">a sample issue</a>&nbsp;that we ask that you pass on to others.&nbsp; If you know someone who may be interested in subscribing, they can learn more&nbsp;<a href="https://340breport.us7.list-manage.com/track/click?u=2987c9a3eb65ae47cba9998c7&amp;id=db11bc5d90&amp;e=96a680e3e8" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #007C89;font-weight: normal;text-decoration: underline;">here</a>&nbsp;or e-mail&nbsp;<a href="mailto:reshma.eggleston@340Breport.com" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #007C89;font-weight: normal;text-decoration: underline;">reshma.eggleston@340Breport.com</a>.&nbsp; Thank you for your support. </td></tr></tbody> </table> </td></tr></tbody> </table><!--[if gte mso 9]></td><![endif]--><!--[if gte mso 9]></tr></table><![endif]--> </td></tr></tbody> </table>';
+        $html .= '<table class="mcnDividerBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;table-layout: fixed !important;" width="100%" cellspacing="0" cellpadding="0" border="0"> <tbody class="mcnDividerBlockOuter"> <tr> <td class="mcnDividerBlockInner" style="min-width: 100%;padding: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <table class="mcnDividerContent" style="min-width: 100%;border-top: 2px solid #EAEAEA;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" width="100%" cellspacing="0" cellpadding="0" border="0"> <tbody> <tr> <td style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <span></span> </td></tr></tbody> </table><!-- <td class="mcnDividerBlockInner" style="padding: 18px;"><hr class="mcnDividerContent" style="border-bottom-color:none; border-left-color:none; border-right-color:none; border-bottom-width:0; border-left-width:0; border-right-width:0; margin-top:0; margin-right:0; margin-bottom:0; margin-left:0;"/>--> </td></tr></tbody> </table> <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnBoxedTextBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"><!--[if gte mso 9]><table align="center" border="0" cellspacing="0" cellpadding="0" width="100%"><![endif]--> <tbody class="mcnBoxedTextBlockOuter"> <tr> <td valign="top" class="mcnBoxedTextBlockInner" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"><!--[if gte mso 9]><td align="center" valign="top" "><![endif]--> <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" class="mcnBoxedTextContentContainer"> <tbody> <tr> <td style="padding-top: 9px;padding-left: 18px;padding-bottom: 9px;padding-right: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <table border="0" cellspacing="0" class="mcnTextContentContainer" width="100%" style="min-width: 100% !important;border: 2px solid;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <tbody> <tr> <td valign="top" class="mcnTextContent" style="padding: 18px;font-family: Helvetica;font-size: 16px;font-weight: normal;text-align: left;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;word-break: break-word;color: #202020;line-height: 150%;"> '.$closing_message.' </td></tr></tbody> </table> </td></tr></tbody> </table><!--[if gte mso 9]></td><![endif]--><!--[if gte mso 9]></tr></table><![endif]--> </td></tr></tbody> </table>';
 
         // $html .= '</div>';
 

@@ -3,6 +3,9 @@
 
     $(function () {
         removePostFunction();
+        closingMessageSwitch();
+        
+        $('select.newsletter_audience').on('change', closingMessageSwitch);
 
         $('.adv-create-ad #banner').on('click', open_custom_media_window);
         $('.adv-create-ad #in_story').on('click', open_custom_media_window);
@@ -77,6 +80,10 @@
                             'action': '340b_mailchimp_newsletter',
                             'nonce': $('.wrap.340b-newsletter-posts input[name="mailchimp_340b_nonce"]').val(),
                             'posts': $('.wrap.340b-newsletter-posts .newsletter_posts').val(),
+                            'newsletter_middle_ad': $('.wrap.340b-newsletter-posts .newsletter_middle_ad').val(),
+                            'newsletter_audience': $('.wrap.340b-newsletter-posts .newsletter_audience').val(),
+                            'closing_message_members': $('.wrap.340b-newsletter-posts #closing_message_members').val(),
+                            'closing_message_subscribers': $('.wrap.340b-newsletter-posts #closing_message_subscribers').val(),
                             'api_key': $('.wrap.340b-newsletter-posts input[name="340_mailchimp_key"]').val(),
                             'subject': $('.wrap.340b-newsletter-posts input[name="340_mailchimp_subject"]').val(),
                             'article_title' : article_title,
@@ -219,6 +226,21 @@
                     $('.add-more-post').parent().parent().remove();
                 }
             });
+        }
+
+        function closingMessageSwitch(){
+            if( $('.newsletter_audience').length ){
+                if( $('.newsletter_audience').val() == '3355165' ){
+                    $('.closing_message_subscribers').hide();
+                    $('.closing_message_members').show();
+                } else if( $('.newsletter_audience').val() == '3355169' ) {
+                    $('.closing_message_members').hide();
+                    $('.closing_message_subscribers').show();
+                } else {
+                    $('.closing_message_members').hide();
+                    $('.closing_message_subscribers').hide();
+                }
+            }
         }
     });
 })(jQuery);
