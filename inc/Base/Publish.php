@@ -49,10 +49,10 @@ class Publish extends BaseController
 
             $company_data = [
                 'company_logo' => $_POST['company_logo'],
-                'company_name' => $_POST['company_name'],
+                'company_name' => $this->saveApostrophe($_POST['company_name']),
                 'company_category' =>  $cats,
                 'company_url' => $_POST['company_url'],
-                'company_description' => $_POST['company_description']
+                'company_description' => $this->saveApostrophe($_POST['company_description'])
             ];
             $event_data = [];
             $event_start_date = $_POST['event_start_date'];
@@ -65,8 +65,8 @@ class Publish extends BaseController
             for ($i = 0; $i < count($event_start_date); $i++) {
                 $event_data[$i]['event_start_date'] = $event_start_date[$i];
                 $event_data[$i]['event_end_date'] = $event_end_date[$i];
-                $event_data[$i]['event_title'] = $event_title[$i];
-                $event_data[$i]['event_description'] = $event_description[$i];
+                $event_data[$i]['event_title'] = $this->saveApostrophe($event_title[$i]);
+                $event_data[$i]['event_description'] = $this->saveApostrophe($event_description[$i]);
                 $event_data[$i]['event_url'] = $event_url[$i];
             }
             $sql = 'SELECT user_id FROM ' . $wpdb->prefix . 'advertisements_dash WHERE user_id=' . $user_id;
@@ -128,10 +128,10 @@ class Publish extends BaseController
 
             $company_data = [
                 'company_logo' => $_POST['company_logo'],
-                'company_name' => sanitize_text_field($_POST['company_name']),
+                'company_name' => $this->saveApostrophe($_POST['company_name']),
                 'company_category' => $cats,
                 'company_url' => $_POST['company_url'],
-                'company_description' => $_POST['company_description']
+                'company_description' => $this->saveApostrophe($_POST['company_description'])
             ];
             $event_data = [];
             $event_start_date = $_POST['event_start_date'];
@@ -144,8 +144,8 @@ class Publish extends BaseController
             for ($i = 0; $i < count($event_start_date); $i++) {
                 $event_data[$i]['event_start_date'] = $event_start_date[$i];
                 $event_data[$i]['event_end_date'] = $event_end_date[$i];
-                $event_data[$i]['event_title'] = $event_title[$i];
-                $event_data[$i]['event_description'] = $event_description[$i];
+                $event_data[$i]['event_title'] = $this->saveApostrophe($event_title[$i]);
+                $event_data[$i]['event_description'] = $this->saveApostrophe($event_description[$i]);
                 $event_data[$i]['event_url'] = $event_url[$i];
             }
 

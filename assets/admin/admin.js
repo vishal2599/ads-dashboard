@@ -86,6 +86,7 @@
                             'closing_message_subscribers': $('.wrap.340b-newsletter-posts #closing_message_subscribers').val(),
                             'api_key': $('.wrap.340b-newsletter-posts input[name="340_mailchimp_key"]').val(),
                             'subject': $('.wrap.340b-newsletter-posts input[name="340_mailchimp_subject"]').val(),
+                            'preview_text': $('.wrap.340b-newsletter-posts textarea[name="340_mailchimp_preview_text"]').val(),
                             'article_title' : article_title,
                             'article_url' : article_url,
                             'article_copy' : article_copy

@@ -214,3 +214,10 @@ body.role-advertiser form#your-profile .form-table:nth-child(13) {
     color: grey;
     padding: 0;
 }
+.advertise-form .form-fields .copy{
+    padding: 15px 20px;
+    border:1px solid #000;
+}
+.advertise-form .form-fields .copy h1{
+    padding: 0;
+}

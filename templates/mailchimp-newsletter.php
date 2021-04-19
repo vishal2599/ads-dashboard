@@ -10,6 +10,8 @@ $args = [
 ];
 $closing_message_subscribers = json_decode(get_option('340_mailchimp_closing_message_subscribers'))[0];
 $closing_message_members = json_decode(get_option('340_mailchimp_closing_message_members'))[0];
+$preview_text = get_option('340_mailchimp_preview_text');
+
 $all_posts = new \WP_Query($args);
 
 $company_middle_query = 'SELECT id, company_data FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 AND JSON_EXTRACT(ad_data,"$.newsletter_id") != "NULL" AND JSON_EXTRACT(ad_data, TRIM("$.newsletter_id")) != ""';
@@ -47,6 +49,11 @@ $audience = get_option('340_mailchimp_newsletter_audience');
                 <h3 class="adv-headings">Newsletter Subject: </h3><br><br>
                 <?php $news_subject = get_option('340_mailchimp_subject'); ?>
                 <input type="text" name="340_mailchimp_subject" placeholder="Enter email subject" value="<?php echo ($news_subject) ? $news_subject : ''; ?>">
+            </div>
+            <div class="form-fields">
+                <h3 class="adv-headings">Preview Text: </h3><br><br>
+                <?php $news_subject = get_option('340_mailchimp_preview_text'); ?>
+                <textarea type="text" name="340_mailchimp_preview_text"><?php echo ($preview_text) ? $preview_text : ''; ?></textarea>
             </div>
             <div class="form-fields">
                 <h3 class="adv-headings">Select posts to send in NewsLetter: </h3><br><br>
@@ -114,6 +121,7 @@ $audience = get_option('340_mailchimp_newsletter_audience');
                     <div class="form-fields">
                         <h3 class="adv-headings">Newsletter in Draft: </h3><br><br>
                         <h4><span style="font-size:1.3em;font-weight:400;">Subject:</span> <?php echo get_option('340_mailchimp_subject'); ?></h4>
+                        <h4><span style="font-size:1.3em;font-weight:400;">Preview Text:</span> <?php echo get_option('340_mailchimp_preview_text'); ?></h4>
                         <?php if( $audience != "" ): ?>
                         <h4><span style="font-size:1.3em;font-weight:400;">Audience:</span> <?php echo ($audience == "3355169" ) ? 'Not on a Plan in Memberful' : ( ($audience == "3355165" ) ? 'On a Subscription in Memberful': ''); ?></h4>
                         <?php endif; ?>
@@ -133,6 +141,12 @@ $audience = get_option('340_mailchimp_newsletter_audience');
                                 <li><?php echo $additional[1]->title; ?> <strong>( Additional )</strong></li>
                             <?php endif; ?>
                         </ol>
+                    </div>
+                    <div class="form-fields">
+                    <h4><span style="font-size:1.3em;font-weight:400;">Closing message:</span> </h4>
+                    <div class="copy">
+                    <?php echo ($audience == "3355169" ) ? $closing_message_subscribers : ( ($audience == "3355165" ) ? $closing_message_members : ''); ?>
+                    </div>
                     </div>
                     <div class="form-fields not-visible">
                         <input type="hidden" name="action" value="340b_mailchimp_newsletter_send" />

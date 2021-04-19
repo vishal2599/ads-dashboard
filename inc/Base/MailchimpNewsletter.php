@@ -29,11 +29,12 @@ class MailchimpNewsletter extends BaseController
         }
 
         update_option('340_mailchimp_key', $_REQUEST['api_key']);
-        update_option('340_mailchimp_subject', str_replace('\\', '',  $_REQUEST['subject']));
+        update_option('340_mailchimp_subject', $this->saveApostrophe($_REQUEST['subject']));
         update_option('340_mailchimp_newsletter_middle_ad', $_REQUEST['newsletter_middle_ad']);
         update_option('340_mailchimp_newsletter_audience', $_REQUEST['newsletter_audience']);
         update_option('340_mailchimp_closing_message_subscribers', json_encode( [$_REQUEST['closing_message_subscribers']] ));
         update_option('340_mailchimp_closing_message_members', json_encode( [$_REQUEST['closing_message_members']] ));
+        update_option('340_mailchimp_preview_text', $this->saveApostrophe($_REQUEST['preview_text']));
         $articles = [];
         if( $_REQUEST['article_title'] != ''){
             for ($i = 0; $i < count($_REQUEST['article_title']); $i++) {
@@ -58,6 +59,7 @@ class MailchimpNewsletter extends BaseController
 
         $newsletter_subject_line = get_option('340_mailchimp_subject');
         $list_id = '94452e12bd';
+        $preview_text = get_option('340_mailchimp_preview_text');
 
         $segments = $MailChimp->get('/lists/' . $list_id . '/segments');
         // foreach ($segments['segments'] as $seg) {
@@ -71,8 +73,9 @@ class MailchimpNewsletter extends BaseController
                 ],
                 'settings' => [
                     'subject_line' => $newsletter_subject_line,
-                    'reply_to' => 'mm@shotgunflat.com',
-                    'from_name' => 'mm@shotgunflat.com'
+                    'preview_text' => $preview_text,
+                    'reply_to' => 'info@340breport.com',
+                    'from_name' => '340B Report'
                 ]
             ]);
 
@@ -198,9 +201,9 @@ class MailchimpNewsletter extends BaseController
         $audience = get_option('340_mailchimp_newsletter_audience');
 
         if( $audience == "3355169" ){
-            $closing_message = str_replace('\\', '', json_decode(get_option('340_mailchimp_closing_message_members'))[0]);
+            $closing_message = $this->saveApostrophe( json_decode(get_option('340_mailchimp_closing_message_members'))[0]);
         } elseif( $audience == "3355165" ) {
-            $closing_message = str_replace('\\', '',json_decode(get_option('340_mailchimp_closing_message_subscribers'))[0]);
+            $closing_message = $this->saveApostrophe(json_decode(get_option('340_mailchimp_closing_message_subscribers'))[0]);
         }
 
         $sql = 'SELECT ad_data, company_data FROM ' . $wpdb->prefix . 'advertisements_dash WHERE status=1 AND JSON_EXTRACT(ad_data,"$.newsletter_id") != "NULL" AND JSON_EXTRACT(ad_data, TRIM("$.newsletter_id")) != "" ORDER BY RAND() LIMIT 3';
@@ -240,9 +243,10 @@ class MailchimpNewsletter extends BaseController
             $html .= '<table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <tbody class="mcnTextBlockOuter"> <tr> <td valign="top" class="mcnTextBlockInner" style="padding-top: 9px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"><!--[if mso]><table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;"><tr><![endif]--><!--[if mso]><td valign="top" width="600" style="width:600px;"><![endif]--> <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width: 100%;min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" width="100%" class="mcnTextContentContainer"> <tbody> <tr> <td valign="top" class="mcnTextContent" style="padding-top: 0;padding-right: 18px;padding-bottom: 9px;padding-left: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;word-break: break-word;color: #202020;font-family: Helvetica;font-size: 16px;line-height: 150%;text-align: left;"> <h1 class="null" style="display: block;margin: 0;padding: 0;color: #202020;font-family: Helvetica;font-size: 26px;font-style: normal;font-weight: bold;line-height: EO Ted S125%;letter-spacing: normal;text-align: left;"> <span style="font-size:22px"><strong>' . $additional_posts[0]->title . '</strong></span> </h1><br><p>' . $additional_posts[0]->copy . '</p></td></tr></tbody> </table><!--[if mso]></td><![endif]--><!--[if mso]></tr></table><![endif]--> </td></tr></tbody> </table>';
         }
 
+        $html .= '<table class="mcnDividerBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;table-layout: fixed !important;" width="100%" cellspacing="0" cellpadding="0" border="0"> <tbody class="mcnDividerBlockOuter"> <tr> <td class="mcnDividerBlockInner" style="min-width: 100%;padding: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <table class="mcnDividerContent" style="min-width: 100%;border-top: 2px solid #EAEAEA;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" width="100%" cellspacing="0" cellpadding="0" border="0"> <tbody> <tr> <td style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <span></span> </td></tr></tbody> </table><!-- <td class="mcnDividerBlockInner" style="padding: 18px;"><hr class="mcnDividerContent" style="border-bottom-color:none; border-left-color:none; border-right-color:none; border-bottom-width:0; border-left-width:0; border-right-width:0; margin-top:0; margin-right:0; margin-bottom:0; margin-left:0;"/>--> </td></tr></tbody> </table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnImageBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <tbody class="mcnImageBlockOuter"> <tr> <td valign="top" style="padding: 9px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" class="mcnImageBlockInner"> <table align="left" width="100%" border="0" cellpadding="0" cellspacing="0" class="mcnImageContentContainer" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <tbody> <tr> <td class="mcnImageContent" valign="top" style="padding-right: 9px;padding-left: 9px;padding-top: 0;padding-bottom: 0;text-align: center;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <a href="' . $middle_ad->newsletter_url . '" title="" class="" target="_blank" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <img align="center" alt="' . $middle_company->company_name . '" src="' . wp_get_attachment_url($middle_ad->newsletter_id) . '" width="564" style="max-width: 600px;padding-bottom: 0;display: inline !important;vertical-align: bottom;border: 0;height: auto;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;" class="mcnImage"> </a> </td></tr></tbody> </table> </td></tr></tbody> </table>';
+        
         $html .= $segment_1;
 
-        $html .= '<table class="mcnDividerBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;table-layout: fixed !important;" width="100%" cellspacing="0" cellpadding="0" border="0"> <tbody class="mcnDividerBlockOuter"> <tr> <td class="mcnDividerBlockInner" style="min-width: 100%;padding: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <table class="mcnDividerContent" style="min-width: 100%;border-top: 2px solid #EAEAEA;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" width="100%" cellspacing="0" cellpadding="0" border="0"> <tbody> <tr> <td style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <span></span> </td></tr></tbody> </table><!-- <td class="mcnDividerBlockInner" style="padding: 18px;"><hr class="mcnDividerContent" style="border-bottom-color:none; border-left-color:none; border-right-color:none; border-bottom-width:0; border-left-width:0; border-right-width:0; margin-top:0; margin-right:0; margin-bottom:0; margin-left:0;"/>--> </td></tr></tbody> </table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnImageBlock" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <tbody class="mcnImageBlockOuter"> <tr> <td valign="top" style="padding: 9px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" class="mcnImageBlockInner"> <table align="left" width="100%" border="0" cellpadding="0" cellspacing="0" class="mcnImageContentContainer" style="min-width: 100%;border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <tbody> <tr> <td class="mcnImageContent" valign="top" style="padding-right: 9px;padding-left: 9px;padding-top: 0;padding-bottom: 0;text-align: center;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <a href="' . $middle_ad->newsletter_url . '" title="" class="" target="_blank" style="mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;"> <img align="center" alt="' . $middle_company->company_name . '" src="' . wp_get_attachment_url($middle_ad->newsletter_id) . '" width="564" style="max-width: 600px;padding-bottom: 0;display: inline !important;vertical-align: bottom;border: 0;height: auto;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;" class="mcnImage"> </a> </td></tr></tbody> </table> </td></tr></tbody> </table>';
 
         $html .= $segment_2;
 
