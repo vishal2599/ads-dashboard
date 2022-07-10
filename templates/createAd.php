@@ -19,7 +19,7 @@ $exp_cats = $wpdb->get_col($sql2);
     <h2 class="wp-heading-inline">Your Plan Level: <a href="javascript:void(0);"><?php echo (isset($data->membership_type)) ? ucwords(str_replace('_', ' ', $data->membership_type)) : 'No Plan Selected'; ?></a></h1>
         <form class="adv-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" name='adv_dashboard_form' enctype='multipart/form-data'>
             <div class="advertise-add">
-                <?php if (isset($data->membership_type) && $data->membership_type != 'emerald') : ?>
+                <?php //if (isset($data->membership_type) && $data->membership_type != 'emerald') : ?>
                     <div class="form-fields banner" data-height="300" data-width="1880">
                         <h3>Banner Ad: </h3>
                         <div class="image">
@@ -29,13 +29,13 @@ $exp_cats = $wpdb->get_col($sql2);
                         <div class="btn">
                             <p class="error"></p>
                             <input type="button" value="Upload/Change" class="button-primary" id="banner" />
-                            <p class="warning">( Minimum Dimensions: 1880w X 300h )</p>
+                            <p class="warning">( Required Dimensions: 1880w X 300h )</p>
                         </div>
                         <div class="url">
                             <input type='text' placeholder="Affiliate URL" name='banner_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->banner_url . '"' : ''; ?>>
                         </div>
                     </div>
-                <?php endif; ?>
+                <?php //endif; ?>
                 <div class="form-fields in_story" data-height="300" data-width="1880">
                     <h3>In-Article Ad: </h3>
                     <div class="image">
@@ -45,7 +45,7 @@ $exp_cats = $wpdb->get_col($sql2);
                     <div class="btn">
                         <p class="error"></p>
                         <input type="button" value="Upload/Change" class="button-primary" id="in_story" />
-                        <p class="warning">( Minimum Dimensions: 1880w X 300h )</p>
+                        <p class="warning">( Required Dimensions: 1880w X 300h )</p>
                     </div>
                     <div class="url">
                         <input type='text' placeholder="Affiliate URL" name='in_story_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->in_story_url . '"' : ''; ?>>
@@ -60,7 +60,7 @@ $exp_cats = $wpdb->get_col($sql2);
                     <div class="btn">
                         <p class="error"></p>
                         <input type="button" value="Upload/Change" class="button-primary" id="footer" />
-                        <p class="warning">( Minimum Dimensions: 1880w X 300h )</p>
+                        <p class="warning">( Required Dimensions: 1880w X 300h )</p>
                     </div>
                     <div class="url">
                         <input type='text' placeholder="Affiliate URL" name='footer_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->footer_url . '"' : ''; ?>>
@@ -75,7 +75,7 @@ $exp_cats = $wpdb->get_col($sql2);
                     <div class="btn">
                         <p class="error"></p>
                         <input type="button" value="Upload/Change" class="button-primary" id="sidebar_one" />
-                        <p class="warning">( Minimum Dimensions: 300w X 300h )</p>
+                        <p class="warning">( Required Dimensions: 300w X 300h )</p>
                     </div>
                     <div class="url">
                         <input type='text' placeholder="Affiliate URL" name='sidebar_one_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_one_url . '"' : ''; ?>>
@@ -90,7 +90,7 @@ $exp_cats = $wpdb->get_col($sql2);
                     <div class="btn">
                         <p class="error"></p>
                         <input type="button" value="Upload/Change" class="button-primary" id="sidebar_two" />
-                        <p class="warning">( Minimum Dimensions: 300w X 300h )</p>
+                        <p class="warning">( Required Dimensions: 300w X 300h )</p>
                     </div>
                     <div class="url">
                         <input type='text' placeholder="Affiliate URL" name='sidebar_two_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->sidebar_two_url . '"' : ''; ?>>
@@ -105,7 +105,7 @@ $exp_cats = $wpdb->get_col($sql2);
                     <div class="btn">
                         <p class="error"></p>
                         <input type="button" value="Upload/Change" class="button-primary" id="newsletter" />
-                        <p class="warning">( Minimum Dimensions: 600w X 120h )</p>
+                        <p class="warning">( Required Dimensions: 600w X 120h )</p>
                     </div>
                     <div class="url">
                         <input type='text' placeholder="Affiliate URL" name='newsletter_url' <?php echo (!empty($ad_data)) ? 'value="' . $ad_data->newsletter_url . '"' : ''; ?>>
@@ -132,7 +132,7 @@ $exp_cats = $wpdb->get_col($sql2);
                             <div class="btn">
                                 <p class="error"></p>
                                 <input type="button" value="Upload Logo" class="button-primary" id="company_logo" />
-                                <p class="warning">( Recommended Dimension: 300w X 200h)</p>
+                                <p class="warning">( Required Dimensions: 300w X 200h)</p>
                             </div>
                         </div>
                         <div class="form-fields"><input name="company_name" type="text" <?php echo (!empty($company_data)) ? 'value="' . $company_data->company_name . '"' : ''; ?> placeholder="Company name as it will appear in the Experts Directory"></div>

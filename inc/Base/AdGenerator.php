@@ -31,10 +31,10 @@ class AdGenerator extends BaseController
             $sql3 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type IN ("ultra_diamond", "diamond") AND status=1 AND JSON_EXTRACT(ad_data,"$.sidebar_one_id") != "" ORDER BY RAND() LIMIT 1;';
             $r3 = $wpdb->get_results($sql3);
 
-            $sql4 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type IN ("emerald", "diamond") AND status=1 AND JSON_EXTRACT(ad_data,"$.sidebar_two_id") != "" ORDER BY RAND() LIMIT 1;';
+            $sql4 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type IN ("ultra_diamond", "diamond") AND status=1 AND JSON_EXTRACT(ad_data,"$.sidebar_two_id") != "" ORDER BY RAND() LIMIT 1;';
             $r4 = $wpdb->get_results($sql4);
 
-            $sql5 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type IN ("emerald", "diamond") AND status=1 AND JSON_EXTRACT(ad_data,"$.footer_id") != "" ORDER BY RAND() LIMIT 1;';
+            $sql5 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type IN ("ultra_diamond", "diamond") AND status=1 AND JSON_EXTRACT(ad_data,"$.footer_id") != "" ORDER BY RAND() LIMIT 1;';
             $r5 = $wpdb->get_results($sql5);
 
             $ids = array_merge($r1, $r2, $r3, $r4, $r5);
@@ -45,13 +45,13 @@ class AdGenerator extends BaseController
                 $ids = $wpdb->get_results($sql);
             } else {
                 $case = 3;
-                $sql1 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type IN ("ultra_diamond", "diamond") AND status=1 AND JSON_EXTRACT(ad_data,"$.banner_id") != "" ORDER BY RAND() LIMIT 1;';
+                $sql1 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type IN ("ultra_diamond", "diamond", "emerald") AND status=1 AND JSON_EXTRACT(ad_data,"$.banner_id") != "" ORDER BY RAND() LIMIT 1;';
                 $r1 = $wpdb->get_results($sql1);
     
-                $sql2 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type IN ("ultra_diamond", "diamond") AND status=1 AND JSON_EXTRACT(ad_data,"$.in_story_id") != "" ORDER BY RAND() LIMIT 1;';
+                $sql2 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type IN ("ultra_diamond", "diamond", "emerald") AND status=1 AND JSON_EXTRACT(ad_data,"$.in_story_id") != "" ORDER BY RAND() LIMIT 1;';
                 $r2 = $wpdb->get_results($sql2);
     
-                $sql3 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type IN ("ultra_diamond", "diamond") AND status=1 AND JSON_EXTRACT(ad_data,"$.sidebar_one_id") != "" ORDER BY RAND() LIMIT 1;';
+                $sql3 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type IN ("ultra_diamond", "diamond", "emerald") AND status=1 AND JSON_EXTRACT(ad_data,"$.sidebar_one_id") != "" ORDER BY RAND() LIMIT 1;';
                 $r3 = $wpdb->get_results($sql3);
     
                 $sql4 = 'SELECT * FROM ' . $wpdb->prefix . 'advertisements_dash WHERE membership_type IN ("emerald", "diamond") AND status=1 AND JSON_EXTRACT(ad_data,"$.sidebar_two_id") != "" ORDER BY RAND() LIMIT 1;';

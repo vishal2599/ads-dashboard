@@ -221,3 +221,15 @@ body.role-advertiser form#your-profile .form-table:nth-child(13) {
 .advertise-form .form-fields .copy h1{
     padding: 0;
 }
+.adv-form .loading{
+    position: relative;
+}
+.adv-form .loading img{
+    background: #00bfff;
+    position: absolute;
+    right: -48px;
+    top: -8px;
+    border-radius: 50%;
+    padding: 4px;
+    width: 22px;
+}

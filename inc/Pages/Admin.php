@@ -24,6 +24,7 @@ class Admin extends BaseController
         if (in_array('administrator', (array) $user->roles)) :
             add_submenu_page('advertisers_dashboard', 'Experts Directory', 'Experts Directory', 'read', 'adv_experts_directory', [$this, 'expertsDirectory']);
             add_submenu_page('advertisers_dashboard', 'MailChimp NewsLetter', 'MailChimp NewsLetter', 'read', '340b_mailchimp_newsletter', [$this, 'MailchimpNewsletter']);
+            add_submenu_page('advertisers_dashboard', 'Breaking News', 'Breaking News', 'read', '340b_breaking_news', [$this, 'MailchimpNewsletter']);
         endif;
     }
 
@@ -75,13 +76,19 @@ class Admin extends BaseController
     }
 
     public function expertsDirectory()
-    {
-        $user = wp_get_current_user();
-        if (in_array('administrator', (array) $user->roles)) :
+    {   
             global $wpdb;
             $sql = 'SELECT * FROM ' . $wpdb->prefix . 'adv_expert_categories';
             $result = $wpdb->get_results($sql);
+            //echo "<pre>"; print_r($result);
+            $user = wp_get_current_user();
+            //print_r($user);
+        if (in_array('administrator', (array) $user->roles)) :
+        if (isset($_GET['ad_type']) && ($_GET['ad_type'] == 'new' || $_GET['ad_type'] == 'edit')) {
+                require_once $this->plugin_path . 'templates/editexpert.php';
+            }else{
             require_once $this->plugin_path . 'templates/expertCategories.php';
+}
         endif;
     }
 

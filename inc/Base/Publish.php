@@ -12,12 +12,16 @@ class Publish extends BaseController
 {
     public function register()
     {
+        // print_r($_POST);exit;
         add_action('admin_post_new_advert', [$this, 'handleAddition']);
         add_action('admin_post_edit_advert', [$this, 'handleUpdation']);
         add_action('admin_post_admin_edit_advert', [$this, 'handleAdvertisementPermissions']);
+        add_action('admin_post_admin_edit_expert', [$this, 'handleExpertPermissions']);
         add_action('admin_post_create_expCat', [$this, 'createExpCategory']);
         add_action('admin_post_delete_expCat', [$this, 'deleteExpCategory']);
-        add_action('admin_post_delete_expCat', [$this, 'deleteExpCategory']);
+        // add_action('admin_post_delete_expCat', [$this, 'deleteExpCategory']);
+        // add_action('admin_post_edit_expCat', [$this, 'handleExpertPermissions']);
+
     }
 
     public function handleAddition()
@@ -173,6 +177,8 @@ class Publish extends BaseController
 
             $ad_id = (int)$_POST['advert_id'];
             $sql = 'SELECT id FROM ' . $wpdb->prefix . 'advertisements_dash WHERE id=' . $ad_id;
+            //print_r($sql);
+            
             $res = $wpdb->get_row($sql);
             if (!empty($res)) {
                 $wpdb->update($wpdb->prefix . 'advertisements_dash', array(
@@ -184,6 +190,31 @@ class Publish extends BaseController
             }
 
             wp_redirect('/wp-admin/admin.php?page=advertisers_dashboard');
+        }
+    }
+
+        public function handleExpertPermissions()
+    {
+        if (isset($_POST['edit_expert_data_nonce']) && wp_verify_nonce($_POST['edit_expert_data_nonce'], 'edit_expert_data_nonce')) {
+            print_r($_POST);
+            global $wpdb;
+            $user = wp_get_current_user();
+
+            $exp_id = (int)$_POST['expert_id'];
+            //print_r($exp_id);
+            $sql = 'SELECT id FROM ' . $wpdb->prefix . 'adv_expert_categories WHERE id=' . $exp_id;
+            $res = $wpdb->get_row($sql);
+            
+            if (!empty($res)) {
+                $wpdb->update($wpdb->prefix . 'adv_expert_categories', array(
+                    'category_name' => $_POST['category']
+                ), [
+                    'id' => (int)$_POST['expert_id']
+                ]);
+
+            }
+
+            wp_redirect('/wp-admin/admin.php?page=adv_experts_directory');
         }
     }
 
@@ -212,4 +243,7 @@ class Publish extends BaseController
             wp_redirect('/wp-admin/admin.php?page=adv_experts_directory');
         endif;
     }
+
+
+
 }

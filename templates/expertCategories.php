@@ -5,6 +5,7 @@
             <tr role="row">
                 <th>Sr No.</th>
                 <th>Category Name</th>
+                <th>Edit</th>
                 <th>Delete</th>
             </tr>
         </thead>
@@ -14,6 +15,7 @@
                 <tr role="row" class="<?php echo ($i % 2 == 0) ? 'even' : 'odd'; ?>">
                     <td class=" dt-body-center"><?php echo $i; ?></td>
                     <td class=" dt-body-center"><?php echo $row->category_name; ?></td>
+                    <td class=" dt-body-center"><a href="/wp-admin/admin.php?page=adv_experts_directory&ad_type=edit&expert_id=<?php echo $row->id; ?>" class="page-title-action ad-new-ad">Edit</a></td>
                     <td class=" dt-body-center">
                         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" name='adv_delete_expert_category' enctype='multipart/form-data'>
                             <input type="hidden" name="exp_category_id" value="<?php echo $row->id; ?>">
@@ -33,6 +35,7 @@
             <tr role="row">
                 <th>Sr No.</th>
                 <th>Category Name</th>
+                <th>Edit</th>
                 <th>Delete</th>
             </tr>
         </tfoot>
